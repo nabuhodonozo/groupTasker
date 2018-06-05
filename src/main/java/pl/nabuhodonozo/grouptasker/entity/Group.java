@@ -1,9 +1,12 @@
 package pl.nabuhodonozo.grouptasker.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,6 +19,8 @@ public class Group {
 	private long id;
 	@NotBlank
 	private String name;
+	@OneToMany
+	private List<Task> task;
 	
 	public Group() {}
 	
@@ -35,4 +40,10 @@ public class Group {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Group [id=%s, name=%s, task=%s]", id, name, task);
+	}
+	
 }

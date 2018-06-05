@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,7 +34,7 @@ public class User {
 	@NotBlank
 	@Column(unique = true)
 	private String email;
-	@OneToMany(cascade = CascadeType.ALL) 
+	@ManyToMany(cascade = CascadeType.ALL) 
 	private List<Group> group = new ArrayList<>();
 
 	public void setPassword(String password) {
@@ -50,7 +51,7 @@ public class User {
 
 	public String getPassword() {
 		return password;
-	}
+	} 
 
 	public String getEmail() {
 		return email;
@@ -79,4 +80,11 @@ public class User {
 	public void addGroup(Group group) {
 		this.group.add(group);
 	}
+
+	@Override
+	public String toString() {
+		return String.format("User [id=%s, login=%s, password=%s, email=%s, group=%s]", id, login, password, email,
+				group);
+	}
+	
 }

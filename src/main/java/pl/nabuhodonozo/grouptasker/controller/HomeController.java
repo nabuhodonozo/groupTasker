@@ -1,13 +1,17 @@
 package pl.nabuhodonozo.grouptasker.controller;
 
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.nabuhodonozo.grouptasker.entity.Group;
+import pl.nabuhodonozo.grouptasker.entity.Task;
 import pl.nabuhodonozo.grouptasker.entity.User;
+import pl.nabuhodonozo.grouptasker.repository.GroupRepository;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
 
@@ -20,7 +24,10 @@ public class HomeController {
 	
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	GroupRepository groupRepository;
 	@GetMapping("/i")//initialize
+	@Transactional
 	@ResponseBody
 	public String initialize() {
 		User user1 = new User();
@@ -34,7 +41,7 @@ public class HomeController {
 		user2.setLogin("Jasiu");
 		user2.setPassword("Jasiu123");
 		user2.setEmail("e@e.e");
-		user2.addGroup(new Group("Family"));
+		user2.addGroup(groupRepository.findGroupByName("Family"));
 		user2.addGroup(new Group("School"));
 		user2.addGroup(new Group("Job"));
 		
@@ -44,10 +51,23 @@ public class HomeController {
 		user3.setLogin("Michal");
 		user3.setPassword("Michal123");
 		user3.setEmail("w@w.w");
-		user3.addGroup(new Group("School"));
-		
+		user3.addGroup(groupRepository.findGroupByName("School"));
+		 
 		userRepository.save(user3);
 		
+		///
+		
+		Task task1 = new Task();
+		
+		
+		
 		return "Dodano";
+	}
+	
+	@GetMapping("/f")
+	@Transactional //fix for lazyness to get Task list
+	@ResponseBody
+	public String test() {
+		return groupRepository.findGroupByName("School").toString();
 	}
 }
