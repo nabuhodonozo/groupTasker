@@ -22,8 +22,7 @@ public class Group {
 	public Group(String name) {
 		this.name = name;
 	}
-	
-	
+ 	
 	public long getId() {
 		return id;
 	}
