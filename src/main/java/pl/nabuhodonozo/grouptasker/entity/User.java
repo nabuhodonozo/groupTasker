@@ -28,6 +28,8 @@ public class User {
 	@NotBlank
 	@Column(unique = true)
 	private String email;
+//	@OneToMany
+//	private List<Group> group = new ArrayList<>();
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -60,4 +62,12 @@ public class User {
 	public void setLogin(String login) {
 		this.login = login;
 	}
+
+//	public List<Group> getGroup() {
+//		return group;
+//	}
+//
+//	public void setGroup(List<Group> group) {
+//		this.group = group;
+//	}
 }
