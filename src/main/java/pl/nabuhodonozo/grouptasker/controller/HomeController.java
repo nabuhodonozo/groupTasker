@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pl.nabuhodonozo.grouptasker.entity.Group;
 import pl.nabuhodonozo.grouptasker.entity.User;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
@@ -26,13 +27,16 @@ public class HomeController {
 		user1.setLogin("Maniek");
 		user1.setPassword("Maniek123");
 		user1.setEmail("q@q.q");
-		
+		user1.addGroup(new Group("Family"));
 		userRepository.save(user1);
 		
 		User user2 = new User();
 		user2.setLogin("Jasiu");
 		user2.setPassword("Jasiu123");
 		user2.setEmail("e@e.e");
+		user2.addGroup(new Group("Family"));
+		user2.addGroup(new Group("School"));
+		user2.addGroup(new Group("Job"));
 		
 		userRepository.save(user2);
 		
@@ -40,6 +44,7 @@ public class HomeController {
 		user3.setLogin("Michal");
 		user3.setPassword("Michal123");
 		user3.setEmail("w@w.w");
+		user3.addGroup(new Group("School"));
 		
 		userRepository.save(user3);
 		

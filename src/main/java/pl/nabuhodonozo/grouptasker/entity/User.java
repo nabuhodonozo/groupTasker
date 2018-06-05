@@ -1,10 +1,15 @@
 package pl.nabuhodonozo.grouptasker.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -28,8 +33,8 @@ public class User {
 	@NotBlank
 	@Column(unique = true)
 	private String email;
-//	@OneToMany
-//	private List<Group> group = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL) 
+	private List<Group> group = new ArrayList<>();
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -63,11 +68,15 @@ public class User {
 		this.login = login;
 	}
 
-//	public List<Group> getGroup() {
-//		return group;
-//	}
-//
-//	public void setGroup(List<Group> group) {
-//		this.group = group;
-//	}
+	public List<Group> getGroup() {
+		return group;
+	}
+
+	public void setGroup(List<Group> group) {
+		this.group = group;
+	}
+	
+	public void addGroup(Group group) {
+		this.group.add(group);
+	}
 }

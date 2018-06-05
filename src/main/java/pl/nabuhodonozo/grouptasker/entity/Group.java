@@ -17,6 +17,13 @@ public class Group {
 	@NotBlank
 	private String name;
 	
+	public Group() {}
+	
+	public Group(String name) {
+		this.name = name;
+	}
+	
+	
 	public long getId() {
 		return id;
 	}
