@@ -34,7 +34,7 @@ public class User {
 	@NotBlank
 	@Column(unique = true)
 	private String email;
-	@ManyToMany(cascade = CascadeType.ALL) 
+	@ManyToMany(cascade = CascadeType.ALL) // this one needs change cuz I ll never create user with task already just for testing purpose
 	private List<Group> group = new ArrayList<>();
 
 	public void setPassword(String password) {

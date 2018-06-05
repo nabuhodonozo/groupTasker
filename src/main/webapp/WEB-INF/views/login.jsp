@@ -8,10 +8,7 @@
 </head>
 <body>
 <%@ include file="jspf/nav.jspf" %>
-<h1>It's homepage</h1>
-Zajmij sie formularzami 
-kaskadowosc DO ZMIANY
-i moze relacje (dunno)
+login
 <%@ include file="jspf/footer.jspf" %>
 </body>
 </html>

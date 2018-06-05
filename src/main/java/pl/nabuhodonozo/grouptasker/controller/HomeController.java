@@ -59,13 +59,16 @@ public class HomeController {
 		
 		Task task1 = new Task();
 		
+		task1.setDescription("Buy smthing");
+		task1.setState(false);
+		task1.setUser(user1);
 		
 		
 		return "Dodano";
 	}
 	
 	@GetMapping("/f")
-	@Transactional //fix for lazyness to get Task list
+	@Transactional //fix for laziness to get Task list
 	@ResponseBody
 	public String test() {
 		return groupRepository.findGroupByName("School").toString();

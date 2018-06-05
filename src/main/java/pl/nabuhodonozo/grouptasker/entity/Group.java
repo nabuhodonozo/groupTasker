@@ -18,9 +18,11 @@ public class Group {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@NotBlank
-	private String name;
+	private String name; //TODO: make names unique or give them number...
 	@OneToMany
 	private List<Task> task;
+	//public or private group ??? // future note
+	//group admins // future note
 	
 	public Group() {}
 	
@@ -43,7 +45,19 @@ public class Group {
 
 	@Override
 	public String toString() {
-		return String.format("Group [id=%s, name=%s, task=%s]", id, name, task);
+		return String.format("Group [id=%s, name=%s, task=%s]", id, name, getTask());
+	}
+
+	public List<Task> getTask() {
+		return task;
+	}
+
+	public void setTask(List<Task> task) {
+		this.task = task;
+	}
+	
+	public void addTask(Task task) {
+		this.task.add(task);
 	}
 	
 }
