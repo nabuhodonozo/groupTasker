@@ -86,5 +86,4 @@ public class User {
 		return String.format("User [id=%s, login=%s, password=%s, email=%s, group=%s]", id, login, password, email,
 				group);
 	}
-	
 }

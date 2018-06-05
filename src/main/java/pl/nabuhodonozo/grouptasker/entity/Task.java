@@ -16,7 +16,7 @@ public class Task {
 	private String description;
 	@ManyToOne
 	private User user; //just one user per task for now
-	private boolean state; //done or not yet
+	private boolean state = false; //done or not yet
 	
 	/*TODO
 	 * creation date
@@ -27,6 +27,7 @@ public class Task {
 	 * products used or make additional method for removing number of products
 	 * products used per day
 	 */
+	
 	
 	public long getId() {
 		return id;
@@ -52,4 +53,9 @@ public class Task {
 	public void setState(boolean state) {
 		this.state = state;
 	}
+	@Override
+	public String toString() {
+		return String.format("Task [id=%s, description=%s, state=%s]", id, description, state);
+	}
+	
 }

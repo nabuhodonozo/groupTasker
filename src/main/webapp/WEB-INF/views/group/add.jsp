@@ -12,7 +12,7 @@
 	<form:form method="post" modelAttribute="group">
 		<form:input path="name"/>
 		<form:errors path="name" />
-		<input type="submit" />
+		<input type="submit" value="Add group"/>
 	</form:form>
 <%@ include file="../jspf/footer.jspf" %>
 </body>
