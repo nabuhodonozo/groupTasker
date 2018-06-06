@@ -10,13 +10,14 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
-	${group.name}
+	${group.name}<br><br>
 	<c:forEach items="${tasks}" var="task">
-		${task}<br>
+		${task}
 		
-		<a href="#">if owner of task or admin of group allow del</a><br>
-		<a href="#">if owner or admin allow makin in done</a>
-	
+		<a href="#">del</a><!-- if owner of task or admin of group allow del -->
+		<a href="#">done</a> <!-- if owner or admin allow makin in done -->
+		<!-- add comment / reply option -->
+	<br>
 	</c:forEach>
 	<form:form method="post" modelAttribute="task"><!-- mby form taglib -->
 		<form:input path="description"/>

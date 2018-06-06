@@ -63,6 +63,4 @@ public class Group {
 	public String toString() {
 		return String.format("Group [id=%s, name=%s, tasks=%s]", id, name, tasks);
 	}
-	
-	
 }
