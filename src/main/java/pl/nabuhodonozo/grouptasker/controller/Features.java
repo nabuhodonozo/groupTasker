@@ -1,5 +1,6 @@
 package pl.nabuhodonozo.grouptasker.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.nabuhodonozo.grouptasker.entity.Group;
 import pl.nabuhodonozo.grouptasker.entity.Task;
+import pl.nabuhodonozo.grouptasker.entity.User;
 import pl.nabuhodonozo.grouptasker.repository.GroupRepository;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
@@ -23,6 +25,15 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 @Controller
 @RequestMapping("/app/group")
 public class Features {
+	@GetMapping("/")
+	public String group(Model model, HttpSession session) {
+		Long id = Long.parseLong(session.getAttribute("user_id").toString());
+		User user = userRepository.findOne(id);
+		model.addAttribute("groups", user.getGroup());
+		return "/app/group/userGroups";
+		//TODO: if doesnt exist ask if make one?
+	}
+	 
 	
 	//needs filter and aka Admin management system to allow user to join group and admin acceptance 
 	@GetMapping("manage/{groupName}") //have to be changed later
@@ -36,12 +47,14 @@ public class Features {
 	}
 	
 	@Autowired
-	UserRepository ur; //temp to delete later
+	UserRepository userRepository; //temp to delete later
 	
 	@PostMapping("manage/{groupName}") //have to be changed later
 	@Transactional
-	public String addTask(@PathVariable String groupName, @ModelAttribute Task task) {
-		task.setUser(ur.findOne(1l)); //FIXME user from session
+	public String addTask(@PathVariable String groupName, @Valid Task task, HttpSession session) {
+		Long id = Long.parseLong(session.getAttribute("user_id").toString());
+		User user = userRepository.findOne(id);
+		task.setUser(user); //FIXME user from session
 		Group group = groupRepository.findGroupByName(groupName);
 		group.addTask(task);
 		groupRepository.save(group);
@@ -61,7 +74,21 @@ public class Features {
 		if(result.hasErrors()) {
 			return "/app/group/add";
 		}
+		User user = findUserFromSession();
+		user.addGroup(group);
 		groupRepository.save(group);
-		return "/auth/index"; //add sumthing
+		userRepository.save(user);
+		return "/auth/index"; 
 	}
+	
+	
+	//test
+	
+	@Autowired
+	HttpSession session;
+	public User findUserFromSession() {
+		Long id = Long.parseLong(session.getAttribute("user_id").toString());
+		User user = userRepository.findOne(id); 
+		return user;
+	}	
 }

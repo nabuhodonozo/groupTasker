@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 
 @WebFilter("/app/*")
-public class AuthFiler implements Filter{
+public class AuthFilter implements Filter{
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

@@ -1,17 +1,7 @@
 package pl.nabuhodonozo.grouptasker.model;
 
-import javax.persistence.Column;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-
 public class UserLoginData {
-	@NotBlank
-	@Column(unique = true)
-	@Length(min=4, max=12)
 	private String login;
-	@NotBlank
-	@Length(min=8, max=20)
 	private String password;
 	
 	

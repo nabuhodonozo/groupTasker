@@ -40,6 +40,7 @@ public class AuthenticationController {
 			return "/auth/login";
 		} else if (BCrypt.checkpw(userLoginData.getPassword(), user.getPassword())) {
 			session.setAttribute("user_id", user.getId());
+			session.setAttribute("user_name", user.getLogin());
 			return "/auth/index";
 		} else {
 			result.rejectValue("password", "error.WrongPassword", "WrongPassword");

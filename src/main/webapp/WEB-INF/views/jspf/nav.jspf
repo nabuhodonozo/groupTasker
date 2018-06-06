@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<div>
+	<c:out value="${sessionScope.user_name}" />
+	<a href="#">Del account</a>
+	<a href="#">Wyloguj</a>
+</div>
 <nav>
 	<a href="<c:url value="/auth/login" /> ">Login</a>
-	<a href="<c:url value="/auth/register" /> ">register</a>
-	<a href="<c:url value="/app/group/manage/name"/>">Group (need name here)</a> <!-- FIXME -->
+	<a href="<c:url value="/auth/register" /> ">Register</a>
+	<a href="<c:url value="/app/group/"/>">My Groups</a> <!-- zrobic js i wysuwane listy xD -->
 	<a href="<c:url value="/app/group/add"/>">Group add</a> <!-- DUnno why there is error here but it's working -->
 </nav>
