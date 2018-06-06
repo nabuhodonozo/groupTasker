@@ -17,7 +17,6 @@ public class AuthFiler implements Filter{
 		
 	}
 
-	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
@@ -40,7 +39,6 @@ public class AuthFiler implements Filter{
         httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/auth/login");
     }
     
-
 	@Override
 	public void destroy() {
 		

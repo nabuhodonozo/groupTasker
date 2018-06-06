@@ -17,7 +17,7 @@
 	<form:form method="post" modelAttribute="userLoginData">
 		<div><label><form:input path="login"/>    login       </label></div>
 		<div><form:errors path="login"/></div>
-		<div><label><form:input path="password"/>   password </label></div>
+		<div><label><form:input type="passwpord" path="password"/>   password </label></div>
 		<div><form:errors path="password"/></div>
 		<div><label><input type="submit" value="Login"/>                      </label></div>
 		add here register option or maby do header and inject it with links...

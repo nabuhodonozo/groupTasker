@@ -19,6 +19,7 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
 
 @Controller
+@RequestMapping("/auth")
 public class AuthenticationController {
 
 	@GetMapping("/login")

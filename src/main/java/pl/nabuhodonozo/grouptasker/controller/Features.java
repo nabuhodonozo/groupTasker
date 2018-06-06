@@ -21,7 +21,7 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
 
 @Controller
-@RequestMapping("/group")
+@RequestMapping("/app/group")
 public class Features {
 	
 	//needs filter and aka Admin management system to allow user to join group and admin acceptance 
