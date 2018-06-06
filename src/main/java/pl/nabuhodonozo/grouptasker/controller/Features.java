@@ -50,7 +50,7 @@ public class Features {
 		return "YAY it's working";
 	}
 	
-	@GetMapping("add")
+	@GetMapping("/add")
 	public String add(Model model) {
 		model.addAttribute(new Group());
 		return "group/add";
@@ -58,7 +58,7 @@ public class Features {
 	
 	@Autowired
 	GroupRepository groupRepository;
-	@PostMapping("add")
+	@PostMapping("/add")
 	public String add(@Valid Group group, BindingResult result) {
 		if(result.hasErrors()) {
 			return "group/add";
