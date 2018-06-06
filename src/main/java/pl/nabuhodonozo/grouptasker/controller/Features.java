@@ -28,9 +28,8 @@ public class Features {
 	@GetMapping("manage/{groupName}") //have to be changed later
 	@Transactional// this single line didnt make it work 
 	public String group(Model model, @PathVariable String groupName) {
-		model.addAttribute(groupRepository.findGroupByName(groupName));
-		model.addAttribute("tasks", groupRepository.findGroupByName(groupName).getTasks()); //dirty fix
-//		System.out.println(groupRepository.findGroupByName(groupName).getTasks()); //SUPRISE O.o bez tego nie dziala
+		Group group = groupRepository.findGroupByName(groupName);
+		model.addAttribute(group);
 		model.addAttribute(new Task());
 		return "/app/group/group";
 		//TODO: if doesnt exist ask if make one?

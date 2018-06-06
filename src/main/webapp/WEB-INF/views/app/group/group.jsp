@@ -11,7 +11,7 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	${group.name}<br><br>
-	<c:forEach items="${tasks}" var="task">
+	<c:forEach items="${group.tasks}" var="task">
 		${task}
 		
 		<a href="#">del</a><!-- if owner of task or admin of group allow del -->
@@ -25,4 +25,4 @@
 	</form:form>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
-</html>
+</html>	
