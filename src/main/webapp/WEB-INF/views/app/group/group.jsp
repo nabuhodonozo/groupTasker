@@ -5,11 +5,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@ include file="../jspf/header.jspf" %>
+<%@ include file="/WEB-INF/views/jspf/header.jspf" %>
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="../jspf/nav.jspf" %>
+<%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	${group.name}
 	<c:forEach items="${tasks}" var="task">
 		${task}<br>
@@ -22,6 +22,6 @@
 		<form:input path="description"/>
 		<input type="submit" value="Add task"/>	
 	</form:form>
-<%@ include file="../jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
 </html>

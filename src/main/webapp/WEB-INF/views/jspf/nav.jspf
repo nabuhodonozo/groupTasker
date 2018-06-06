@@ -6,5 +6,5 @@
 	<a href="<c:url value="/login" /> ">Login</a>
 	<a href="<c:url value="/register" /> ">register</a>
 	<a href="<c:url value="/group/manage/name"/>">Group (need name here)</a> <!-- FIXME -->
-	<a href="<c:url value="/group/add"/>">Group add</a>
+	<a href="<c:url value="/group/add"/>">Group add</a> <!-- DUnno why there is error here but it's working -->
 </nav>

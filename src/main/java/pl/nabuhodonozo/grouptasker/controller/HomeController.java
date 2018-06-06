@@ -19,7 +19,7 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 public class HomeController {
 	@GetMapping("/")
 	public String home() {
-		return "index";
+		return "/app/index";
 	}
 	
 	@Autowired

@@ -32,7 +32,7 @@ public class Features {
 		model.addAttribute("tasks", groupRepository.findGroupByName(groupName).getTasks()); //dirty fix
 		System.out.println(groupRepository.findGroupByName(groupName).getTasks()); //SUPRISE O.o bez tego nie dziala
 		model.addAttribute(new Task());
-		return "group/group";
+		return "/app/group/group";
 		//TODO: if doesnt exist ask if make one?
 	}
 	
@@ -53,7 +53,7 @@ public class Features {
 	@GetMapping("/add")
 	public String add(Model model) {
 		model.addAttribute(new Group());
-		return "group/add";
+		return "/app/group/add";
 	}
 	
 	@Autowired
@@ -61,9 +61,9 @@ public class Features {
 	@PostMapping("/add")
 	public String add(@Valid Group group, BindingResult result) {
 		if(result.hasErrors()) {
-			return "group/add";
+			return "/app/group/add";
 		}
 		groupRepository.save(group);
-		return ""; //add sumthing
+		return "/auth/index"; //add sumthing
 	}
 }
