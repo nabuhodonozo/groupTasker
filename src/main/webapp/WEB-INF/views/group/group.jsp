@@ -18,15 +18,6 @@
 		<a href="#">if owner or admin allow makin in done</a>
 	
 	</c:forEach>
-	<!-- 
-	<c:forEach items="${group.tasks}" var="task">
-		${task}
-		
-		<a href="#">if owner of task or admin of group allow del</a>
-		<a href="#">if owner or admin allow makin in done</a>
-	
-	</c:forEach>
-	 -->
 	<form:form method="post" modelAttribute="task"><!-- mby form taglib -->
 		<form:input path="description"/>
 		<input type="submit" value="Add task"/>	

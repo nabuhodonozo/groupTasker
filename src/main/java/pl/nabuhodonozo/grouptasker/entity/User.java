@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "user")
@@ -34,11 +35,15 @@ public class User {
 	@NotBlank
 	@Column(unique = true)
 	private String email;
-	@ManyToMany(cascade = CascadeType.ALL) // this one needs change cuz I ll never create user with task already just for testing purpose
+	@ManyToMany(cascade = CascadeType.ALL) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
 	private List<Group> group = new ArrayList<>();
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void hashPassword() {
+		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(12));
 	}
 	
 	public long getId() {

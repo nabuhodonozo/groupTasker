@@ -1,6 +1,5 @@
 package pl.nabuhodonozo.grouptasker.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -29,10 +28,9 @@ public class Features {
 	@GetMapping("manage/{groupName}") //have to be changed later
 	@Transactional// this single line didnt make it work 
 	public String group(Model model, @PathVariable String groupName) {
-//		model.addAttribute("group", groupRepository.findGroupByName(groupName));
 		model.addAttribute(groupRepository.findGroupByName(groupName));
 		model.addAttribute("tasks", groupRepository.findGroupByName(groupName).getTasks()); //dirty fix
-		System.out.println(groupRepository.findGroupByName(groupName).getTasks()); //O.o bez tego nie dziala
+		System.out.println(groupRepository.findGroupByName(groupName).getTasks()); //SUPRISE O.o bez tego nie dziala
 		model.addAttribute(new Task());
 		return "group/group";
 		//TODO: if doesnt exist ask if make one?
