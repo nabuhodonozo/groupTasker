@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pl.nabuhodonozo.grouptasker.entity.Comment;
 import pl.nabuhodonozo.grouptasker.entity.Group;
 import pl.nabuhodonozo.grouptasker.entity.Task;
 import pl.nabuhodonozo.grouptasker.entity.User;
+import pl.nabuhodonozo.grouptasker.repository.CommentRepository;
 import pl.nabuhodonozo.grouptasker.repository.GroupRepository;
+import pl.nabuhodonozo.grouptasker.repository.TaskRepository;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
 
@@ -48,8 +51,27 @@ public class Features {
 		Group group = groupRepository.findGroupByName(groupName);
 		model.addAttribute(group);
 		model.addAttribute(new Task());
+		model.addAttribute(new Comment());
 		return "/app/group/group";
 		//TODO: if doesnt exist ask if make one?
+	}
+	
+	@Autowired
+	CommentRepository commentRepository;
+	@Autowired
+	TaskRepository taskRepository;
+	
+	@PostMapping("manage/{groupName}/{taskId}")
+	@ResponseBody //temp to test
+	public String group(@Valid Comment comment, @PathVariable String groupName, @PathVariable Long taskId) {
+		comment.setUser(findUserFromSession());
+		commentRepository.save(comment);
+		Task task = taskRepository.findOne(taskId);
+		task.addComment(comment);
+		taskRepository.save(task);
+		
+		
+		return "Comment added (probably)";
 	}
 	
 	@Autowired

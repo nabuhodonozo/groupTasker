@@ -1,10 +1,15 @@
 package pl.nabuhodonozo.grouptasker.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +22,8 @@ public class Task {
 	@ManyToOne
 	private User user; //just one user per task for now
 	private boolean state = false; //done or not yet
-	
+	@OneToMany
+	private List<Comment> comment = new ArrayList<>();
 	/*TODO
 	 * creation date
 	 * expiration date
@@ -27,8 +33,6 @@ public class Task {
 	 * products used or make additional method for removing number of products
 	 * products used per day
 	 */
-	
-	
 	public long getId() {
 		return id;
 	}
@@ -53,9 +57,18 @@ public class Task {
 	public void setState(boolean state) {
 		this.state = state;
 	}
-	@Override
-	public String toString() {
-		return String.format("Task [id=%s, description=%s, state=%s]", id, description, state);
+	public List<Comment> getComment() {
+		return comment;
 	}
+	public void setComment(List<Comment> comment) {
+		this.comment = comment;
+	}
+	public void addComment(Comment comment) {
+		this.comment.add(comment);
+	}
+
+	
+	
+
 	
 }

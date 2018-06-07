@@ -11,14 +11,29 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	<c:forEach items="${group.tasks}" var="task">
-		<div>
-			${task}
+		 <div style="border: 1px solid black">
+			<p>
+				${task.state}
 			<a href="#">del</a><!-- if owner of task or admin of group allow del -->
 			<a href="#">done</a> <!-- if owner or admin allow makin in done -->
 			<!-- add comment / reply option 
 				add leave group option / edit name / manage group
 			-->
+			</p>
+			<p>
+				${task.description}
+			</p>
+			<c:forEach items="${task.comment}" var="singlecomment">
+				<p style="border: 1px solid green">
+					${singlecomment.text}
+				</p>					
+			</c:forEach>
+			<form:form action="${myUrl}${group.name}/${task.id}" method="post" modelAttribute="comment">
+				<form:textarea path="text"/>
+				<input type="submit" value="Add comment"/>	
+			</form:form> 
 		</div>
+		 
 	</c:forEach>
 	<form:form method="post" modelAttribute="task">
 		<form:input path="description"/>
