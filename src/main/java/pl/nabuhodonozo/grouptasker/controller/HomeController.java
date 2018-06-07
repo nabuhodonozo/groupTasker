@@ -41,7 +41,7 @@ public class HomeController {
 		user2.setLogin("Jasiu");
 		user2.setPassword("Jasiu123");
 		user2.setEmail("e@e.e");
-		user2.addGroup(groupRepository.findGroupByName("Family"));
+		user2.addGroup(groupRepository.findByName("Family"));
 		user2.addGroup(new Group("School"));
 		user2.addGroup(new Group("Job"));
 		
@@ -51,7 +51,7 @@ public class HomeController {
 		user3.setLogin("Michal");
 		user3.setPassword("Michal123");
 		user3.setEmail("w@w.w");
-		user3.addGroup(groupRepository.findGroupByName("School"));
+		user3.addGroup(groupRepository.findByName("School"));
 		 
 		userRepository.save(user3);
 		
@@ -71,6 +71,6 @@ public class HomeController {
 	@Transactional //fix for laziness to get Task list
 	@ResponseBody
 	public String test() {
-		return groupRepository.findGroupByName("School").toString();
+		return groupRepository.findByName("School").toString();
 	}
 }

@@ -1,7 +1,11 @@
 package pl.nabuhodonozo.grouptasker.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import pl.nabuhodonozo.grouptasker.entity.Group;
 import pl.nabuhodonozo.grouptasker.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{

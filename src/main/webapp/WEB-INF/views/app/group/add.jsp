@@ -10,9 +10,9 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	<form:form method="post" modelAttribute="group">
-		<form:input path="name"/>
-		<form:errors path="name" />
-		<input type="submit" value="Add group"/>
+		<div></div><form:input path="name"/>			</div>
+		<div><form:errors path="name" />				</div>
+		<div><input type="submit" value="Add group"/>    </div>
 	</form:form>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>

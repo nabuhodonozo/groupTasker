@@ -2,6 +2,7 @@ package pl.nabuhodonozo.grouptasker.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,13 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "\"group\"") //dunno if it's safe, but mysql wont allow to make it regular way
-public class Group {
+public class Group {	//TODO switch name to "groups" and all other tasks, comments etc.
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -25,6 +27,8 @@ public class Group {
 	private String name; //TODO: make names unique or give them number...
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Task> tasks = new ArrayList<>();
+//	@OneToOne    			not needed now
+//	private User admin;
 	//public or private group ??? // future note
 	//group admins // future note
 	
@@ -58,9 +62,22 @@ public class Group {
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
+	
+	public void delTask(Long id) {
+		Predicate<Task> predicate = p-> p.getId() == id;
+		this.tasks.removeIf(predicate);
+	}
 
 	@Override
 	public String toString() {
 		return String.format("Group [id=%s, name=%s, tasks=%s]", id, name, tasks);
 	}
+
+//	public User getAdmin() {
+//		return admin;
+//	}
+//
+//	public void setAdmin(User admin) {
+//		this.admin = admin;
+//	}
 }

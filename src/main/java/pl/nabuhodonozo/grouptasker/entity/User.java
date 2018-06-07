@@ -34,7 +34,7 @@ public class User {
 	@NotBlank
 	@Column(unique = true)
 	private String email;
-	@ManyToMany(cascade = CascadeType.ALL) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
+	@ManyToMany(cascade = CascadeType.MERGE) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
 	private List<Group> group = new ArrayList<>();
 
 	public void setPassword(String password) {
@@ -85,6 +85,8 @@ public class User {
 		this.group.add(group);
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return String.format("User [id=%s, login=%s, password=%s, email=%s, group=%s]", id, login, password, email,

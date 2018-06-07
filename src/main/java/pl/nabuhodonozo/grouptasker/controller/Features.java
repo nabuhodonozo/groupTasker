@@ -1,9 +1,13 @@
 package pl.nabuhodonozo.grouptasker.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.nabuhodonozo.grouptasker.entity.Comment;
@@ -36,25 +41,26 @@ public class Features {
 		return "/app/group/userGroups";
 		//TODO: if doesnt exist ask if make one?
 	}
-	 
 	
-	//needs filter and aka Admin management system to allow user to join group and admin acceptance 
+	//needs filter and aka Admin management system to allow user to join group and admin permission
 	@GetMapping("manage/{groupName}") //have to be changed later
 	@Transactional// this single line didnt make it work 
 	public String group(Model model, @PathVariable String groupName) {
 		
 		//dirty fix (workaround filter for authentication to group)
-		if(!findUserFromSession().getGroup().contains(groupRepository.findGroupByName(groupName))) {
+		if(!findUserFromSession().getGroup().contains(groupRepository.findByName(groupName))) {
 			return "error/accessDenied";
 		}
 		
-		Group group = groupRepository.findGroupByName(groupName);
+		Group group = groupRepository.findByName(groupName);
 		model.addAttribute(group);
 		model.addAttribute(new Task());
 		model.addAttribute(new Comment());
+		model.addAttribute("userList", userRepository.findAll()); //FIXME: only users not present already in group
 		return "/app/group/group";
 		//TODO: if doesnt exist ask if make one?
 	}
+	
 	
 	@Autowired
 	CommentRepository commentRepository;
@@ -62,7 +68,6 @@ public class Features {
 	TaskRepository taskRepository;
 	
 	@PostMapping("manage/{groupName}/{taskId}")
-	@ResponseBody //temp to test
 	public String group(@Valid Comment comment, @PathVariable String groupName, @PathVariable Long taskId) {
 		comment.setUser(findUserFromSession());
 		commentRepository.save(comment);
@@ -71,7 +76,7 @@ public class Features {
 		taskRepository.save(task);
 		
 		
-		return "Comment added (probably)";
+		return "redirect:/app/group/manage/"+groupName;
 	}
 	
 	@Autowired
@@ -83,7 +88,7 @@ public class Features {
 		Long id = Long.parseLong(session.getAttribute("user_id").toString());
 		User user = userRepository.findOne(id);
 		task.setUser(user); //FIXME user from session
-		Group group = groupRepository.findGroupByName(groupName);
+		Group group = groupRepository.findByName(groupName);
 		group.addTask(task);
 		groupRepository.save(group);
 		return "redirect:/app/group/manage/"+groupName;
@@ -102,12 +107,37 @@ public class Features {
 		if(result.hasErrors()) {
 			return "/app/group/add";
 		}
-		User user = findUserFromSession();
-		user.addGroup(group);
-		groupRepository.save(group);
-		userRepository.save(user);
-		return "/auth/index"; 
+		if(groupRepository.findByName(group.getName())==null){
+			User user = findUserFromSession();
+			user.addGroup(group);
+			groupRepository.save(group);
+			userRepository.save(user);
+			return "/auth/index"; 
+		}else {
+			result.rejectValue("name", "error.GroupAlreadyExist", "Group already exist");
+			return "/app/group/add";
+		}
 	}
+	
+	
+	@PostMapping("manage/{groupName}/addUser")
+	public String addUser(@PathVariable String groupName, @RequestParam String user_name ) {
+		User foundUser = userRepository.findByLogin(user_name);
+		foundUser.addGroup(groupRepository.findByName(groupName));
+		userRepository.save(foundUser);
+		return "redirect:/app/group/manage/"+groupName;
+	}
+	
+	
+	@PostMapping("manage/{groupName}/delTask")
+	public String delTask(@PathVariable String groupName, @RequestParam Long taskId ) {
+		Group group = groupRepository.findByTasks_Id(taskId);
+		group.delTask(taskId);
+		groupRepository.save(group);
+		taskRepository.delete(taskId);   
+		return "redirect:/app/group/manage/"+groupName;
+	}
+	
 	
 	
 	//test

@@ -3,6 +3,7 @@ package pl.nabuhodonozo.grouptasker.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,9 +67,4 @@ public class Task {
 	public void addComment(Comment comment) {
 		this.comment.add(comment);
 	}
-
-	
-	
-
-	
 }

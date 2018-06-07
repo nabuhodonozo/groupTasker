@@ -10,11 +10,24 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
+<div style="float: right; clear: left;">
+	<c:url value="/app/group/manage/" var="myUrl"/>
+	<c:forEach items="${userList}" var="user">
+		${user.login}	
+			<form action="${myUrl}${group.name}/addUser" method="post">
+				<input type = "hidden" name = "user_name" value = "${user.login}" />
+				<input type="submit" value="Invite"/>	
+			</form> 
+	</c:forEach>	
+</div>
 	<c:forEach items="${group.tasks}" var="task">
 		 <div style="border: 1px solid black">
 			<p>
 				${task.state}
-			<a href="#">del</a><!-- if owner of task or admin of group allow del -->
+			<form action="${myUrl}${group.name}/delTask" method="post">
+				<input type = "hidden" name = "taskId" value = "${task.id}" />
+				<input type="submit" value="del"/>	
+			</form> <!-- if owner of task or admin of group allow del -->
 			<a href="#">done</a> <!-- if owner or admin allow makin in done -->
 			<!-- add comment / reply option 
 				add leave group option / edit name / manage group
@@ -33,7 +46,6 @@
 				<input type="submit" value="Add comment"/>	
 			</form:form> 
 		</div>
-		 
 	</c:forEach>
 	<form:form method="post" modelAttribute="task">
 		<form:input path="description"/>
