@@ -4,8 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <div>
 	<c:out value="${sessionScope.user_name}" />
-	<a href="#">Del account</a>
-	<a href="#">Wyloguj</a>
+	<a href="<c:url value="/app/group/logout" />">Wyloguj</a>
 </div>
 <nav>
 	<a href="<c:url value="/auth/login" /> ">Login</a>

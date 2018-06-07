@@ -10,9 +10,6 @@
 <body>
 <%@ include file="/WEB-INF/views//jspf/nav.jspf" %>
 <h1>It's homepage</h1>
-Zajmij sie formularzami 
-kaskadowosc DO ZMIANY
-i moze relacje (dunno)
 <%@ include file="/WEB-INF/views//jspf/footer.jspf" %>
 </body>
 </html>

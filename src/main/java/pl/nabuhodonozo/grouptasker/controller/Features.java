@@ -2,6 +2,7 @@ package pl.nabuhodonozo.grouptasker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -53,10 +54,33 @@ public class Features {
 		}
 		
 		Group group = groupRepository.findByName(groupName);
+		
+		
+		
 		model.addAttribute(group);
 		model.addAttribute(new Task());
 		model.addAttribute(new Comment());
-		model.addAttribute("userList", userRepository.findAll()); //FIXME: only users not present already in group
+		
+		//Probably there is one querry for all of this code //FIXME
+		List<User> userList = userRepository.findAll();
+		List<User> usersToInvite = new ArrayList<>();
+		for (User user : userList) {
+			for (Group groupLookedFor : user.getGroup()) {
+				int tempVar=0;
+				if(!groupName.equals(groupLookedFor.getName())) {
+					tempVar++;
+				}
+				if(tempVar==user.getGroup().size()) {
+					usersToInvite.add(user);
+				}
+			}
+			if(user.getGroup().isEmpty()) {
+				usersToInvite.add(user);
+			}
+		}
+		
+		
+		model.addAttribute("userList", usersToInvite); //FIXME: only users not present already in group
 		return "/app/group/group";
 		//TODO: if doesnt exist ask if make one?
 	}
@@ -139,8 +163,13 @@ public class Features {
 	}
 	
 	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate(); 
+		return "redirect:/";
+	}
 	
-	//test
+	
 	
 	@Autowired
 	HttpSession session;

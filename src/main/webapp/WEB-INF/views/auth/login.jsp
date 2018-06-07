@@ -20,7 +20,6 @@
 		<div><label><form:input type="password" path="password"/>   password </label></div>
 		<div><form:errors path="password"/></div>
 		<div><label><input type="submit" value="Login"/>                      </label></div>
-		add here register option or maby do header and inject it with links...
 	</form:form>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
