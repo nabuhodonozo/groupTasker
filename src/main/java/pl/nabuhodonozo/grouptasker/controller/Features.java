@@ -39,6 +39,12 @@ public class Features {
 	@GetMapping("manage/{groupName}") //have to be changed later
 	@Transactional// this single line didnt make it work 
 	public String group(Model model, @PathVariable String groupName) {
+		
+		//dirty fix (workaround filter for authentication to group)
+		if(!findUserFromSession().getGroup().contains(groupRepository.findGroupByName(groupName))) {
+			return "error/accessDenied";
+		}
+		
 		Group group = groupRepository.findGroupByName(groupName);
 		model.addAttribute(group);
 		model.addAttribute(new Task());
