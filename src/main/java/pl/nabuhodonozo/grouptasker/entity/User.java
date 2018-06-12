@@ -25,7 +25,7 @@ public class User {
 	private long id;
 	@NotBlank
 	@Column(unique = true)
-	@Length(min=4, max=12)
+	@Length(min=3, max=12)
 	private String login;
 	@NotBlank
 	@Length(min=8, max=20)

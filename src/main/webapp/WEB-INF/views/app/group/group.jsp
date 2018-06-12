@@ -11,6 +11,7 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 <div style="float: right; clear: left;">
+	Users To invite:
 	<c:url value="/app/group/manage/" var="myUrl"/>
 	<c:forEach items="${userList}" var="user">
 		${user.login}	
@@ -20,10 +21,19 @@
 			</form> 
 	</c:forEach>	
 </div>
+<div style="float: right; clear: left;">
+	Users in Group:
+	<c:forEach items="${usersInGroup}" var="groupUser">	
+			<form action="${myUrl}${group.name}/userTasks" method="post">
+				<input type = "hidden" name = "user_name" value = "${groupUser.login}" />
+				<input type="submit" value="${groupUser.login}"/>	
+			</form> 
+	</c:forEach>	
+</div>
 	<c:forEach items="${group.tasks}" var="task">
 		 <div style="border: 1px solid black">
 			<p>
-				${task.state}
+				${task.state} ${task.user.login }
 			<form action="${myUrl}${group.name}/delTask" method="post">
 				<input type = "hidden" name = "taskId" value = "${task.id}" />
 				<input type="submit" value="del"/>	

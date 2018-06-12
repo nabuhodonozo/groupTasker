@@ -79,7 +79,7 @@ public class Features {
 			}
 		}
 		
-		
+		model.addAttribute("usersInGroup", userRepository.findByGroup_Name(groupName));
 		model.addAttribute("userList", usersToInvite); //FIXME: only users not present already in group
 		return "/app/group/group";
 		//TODO: if doesnt exist ask if make one?
@@ -162,6 +162,14 @@ public class Features {
 		return "redirect:/app/group/manage/"+groupName;
 	}
 	
+	@PostMapping("manage/{groupName}/userTasks")
+	public String userTasks(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
+//		User foundUser = userRepository.findByLogin(user_name);
+//		querry here
+//		model.addAttribute();
+		model.addAttribute("tasks",taskRepository.findAllByUser_Login(user_name));
+		return "/app/group/userTasks";
+	}
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -169,7 +177,17 @@ public class Features {
 		return "redirect:/";
 	}
 	
+	//Test//////////////////////////////////////////////////
 	
+//	doestn work 
+//	@GetMapping("manage/{groupName}/test")
+//	public String userGroupTask(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
+//		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndUser_Group_Name(user_name, groupName));
+//		return "/app/group/userTasks";
+//	}
+//	
+	
+	//Test//////////////////////////////////////////////////
 	
 	@Autowired
 	HttpSession session;
