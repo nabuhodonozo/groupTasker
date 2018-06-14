@@ -10,18 +10,17 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
-<div style="float: right; clear: left;">
+<div style="float: right; clear: left; padding-left: 10px; padding-right: 10px;">
 	Users To invite:
 	<c:url value="/app/group/manage/" var="myUrl"/>
 	<c:forEach items="${userList}" var="user">
-		${user.login}	
 			<form action="${myUrl}${group.name}/addUser" method="post">
 				<input type = "hidden" name = "user_name" value = "${user.login}" />
-				<input type="submit" value="Invite"/>	
+				<input type="submit" value="Invite ${user.login}"/>
 			</form> 
 	</c:forEach>	
 </div>
-<div style="float: right; clear: left;">
+<div style="float: right; clear: left;  padding-left: 10px; padding-right: 10px;">
 	Users in Group:
 	<c:forEach items="${usersInGroup}" var="groupUser">	
 			<form action="${myUrl}${group.name}/userTasks" method="post">
@@ -37,8 +36,14 @@
 			<form action="${myUrl}${group.name}/delTask" method="post">
 				<input type = "hidden" name = "taskId" value = "${task.id}" />
 				<input type="submit" value="del"/>	
-			</form> <!-- if owner of task or admin of group allow del -->
-			<a href="#">done</a> <!-- if owner or admin allow makin in done -->
+			</form>
+			 <form action="${myUrl}${group.name}/switchState" method="post">
+				 <input type = "hidden" name = "taskId" value = "${task.id}" />
+				 <input type="submit" value="done"/>
+			 </form> <!-- if owner of task or admin of group allow del -->
+
+			 <!-- if owner of task or admin of group allow del -->
+			 <!-- <a href="#">done</a> if owner or admin allow makin in done -->
 			<!-- add comment / reply option 
 				add leave group option / edit name / manage group
 			-->

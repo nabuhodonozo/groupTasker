@@ -161,7 +161,17 @@ public class Features {
 		taskRepository.delete(taskId);   
 		return "redirect:/app/group/manage/"+groupName;
 	}
-	
+
+
+	@PostMapping("manage/{groupName}/switchState")
+	public String changeTaskState(@PathVariable String groupName, @RequestParam Long taskId ) {
+		Task task = taskRepository.findOne(taskId);
+		task.changeState();
+		taskRepository.save(task);
+		return "redirect:/app/group/manage/"+groupName;
+	}
+
+
 	@PostMapping("manage/{groupName}/userTasks")
 	public String userTasks(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
 //		User foundUser = userRepository.findByLogin(user_name);

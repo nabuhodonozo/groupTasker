@@ -84,4 +84,14 @@ public class Task {
     public void setDate(Date date) {
         this.date = date;
     }
+
+
+    public void changeState() {
+        if(this.state){
+            this.state = false;
+        }else{
+            this.state = true;
+        }
+    }
+
 }
