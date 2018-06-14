@@ -17,8 +17,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "\"group\"") //dunno if it's safe, but mysql wont allow to make it regular way
-public class Group {	//TODO switch name to "groups" and all other tasks, comments etc.
+@Table(name = "groups")
+public class Group {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

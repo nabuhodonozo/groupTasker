@@ -63,13 +63,4 @@
 	</form:form>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
-<!-- TODO //I know it's not the best idea to give comments here
-
-JSP OR CONTROLLER GIVES ERROR
-
-java.lang.IllegalArgumentException: Model object must not be null
-
-but everthing is working .... check it out later
-
- -->
-</html>	
+</html>

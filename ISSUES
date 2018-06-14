@@ -1,0 +1,8 @@
+#From now on ima write down problems I have ecountered so far and mby add solutions to them
+#(My learning purposes and kinda future notes)
+
+1. Think wisely about database plan (deleting stuff rn is painful)
+2. All operations based on @pathvariables are not the best idea due to security etc.
+    * workaround rn is that some of those operations are sent via "forms and post method"
+    * I think using ajax in this case would be more useful than more controllers and mapping methods
+3. Dont put everything in the same controller (it was supposed to be temporary, but now it became one big mess)
