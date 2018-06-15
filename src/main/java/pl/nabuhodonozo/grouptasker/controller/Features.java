@@ -172,10 +172,7 @@ public class Features {
 
 	@PostMapping("manage/{groupName}/userTasks")
 	public String userTasks(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
-//		User foundUser = userRepository.findByLogin(user_name);
-//		querry here
-//		model.addAttribute();
-		model.addAttribute("tasks",taskRepository.findAllByUser_Login(user_name));
+		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndGroup_Name(user_name, groupName));
 		return "/app/group/userTasks";
 	}
 	
@@ -184,18 +181,13 @@ public class Features {
 		session.invalidate(); 
 		return "redirect:/";
 	}
-	
-	//Test//////////////////////////////////////////////////
-	
-//	doestn work 
-//	@GetMapping("manage/{groupName}/test")
-//	public String userGroupTask(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
-//		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndUser_Group_Name(user_name, groupName));
-//		return "/app/group/userTasks";
-//	}
-//	
-	
-	//Test//////////////////////////////////////////////////
+
+	@GetMapping("/mytasks")
+	public String mytasks(Model model ) {
+		User user = findUserFromSession();	
+		model.addAttribute("tasks",taskRepository.findAllByUser_Login(user.getLogin()));
+		return "/app/group/userTasks";
+	}
 	
 	@Autowired
 	HttpSession session;

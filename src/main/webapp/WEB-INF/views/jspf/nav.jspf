@@ -10,5 +10,6 @@
 	<a href="<c:url value="/auth/login" /> ">Login</a>
 	<a href="<c:url value="/auth/register" /> ">Register</a>
 	<a href="<c:url value="/app/group/"/>">My Groups</a> <!-- zrobic js i wysuwane listy xD -->
-	<a href="<c:url value="/app/group/add"/>">Group add</a> <!-- DUnno why there is error here but it's working -->
+	<a href="<c:url value="/app/group/add"/>">Add Group</a>
+	<a href="<c:url value="/app/group/mytasks"/>">My Tasks</a>
 </nav>
