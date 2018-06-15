@@ -29,7 +29,7 @@
 			</form> 
 	</c:forEach>	
 </div>
-	<c:forEach items="${group.tasks}" var="task">
+	<c:forEach items="${groupTasks}" var="task">
 		 <div style="border: 1px solid black">
 			<p>
 				${task.state} ${task.user.login }

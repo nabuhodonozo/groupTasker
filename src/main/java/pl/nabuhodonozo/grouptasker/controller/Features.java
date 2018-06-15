@@ -60,7 +60,8 @@ public class Features {
 		model.addAttribute(group);
 		model.addAttribute(new Task());
 		model.addAttribute(new Comment());
-		
+		model.addAttribute("groupTasks", taskRepository.findAllByGroup_Name(groupName));
+
 		//Probably there is one querry for all of this code //FIXME
 		List<User> userList = userRepository.findAll();
 		List<User> usersToInvite = new ArrayList<>();
@@ -96,8 +97,8 @@ public class Features {
 		comment.setUser(findUserFromSession());
 		commentRepository.save(comment);
 		Task task = taskRepository.findOne(taskId);
-		task.addComment(comment);
-		taskRepository.save(task);
+		comment.setTask(task);
+		commentRepository.save(comment);
 		
 		
 		return "redirect:/app/group/manage/"+groupName;
@@ -113,8 +114,8 @@ public class Features {
 		User user = userRepository.findOne(id);
 		task.setUser(user); //FIXME user from session
 		Group group = groupRepository.findByName(groupName);
-		group.addTask(task);
-		groupRepository.save(group);
+		task.setGroup(group);
+		taskRepository.save(task);
 		return "redirect:/app/group/manage/"+groupName;
 	}
 	
@@ -155,10 +156,7 @@ public class Features {
 	
 	@PostMapping("manage/{groupName}/delTask")
 	public String delTask(@PathVariable String groupName, @RequestParam Long taskId ) {
-		Group group = groupRepository.findByTasks_Id(taskId);
-		group.delTask(taskId);
-		groupRepository.save(group);
-		taskRepository.delete(taskId);   
+		taskRepository.delete(taskId);
 		return "redirect:/app/group/manage/"+groupName;
 	}
 

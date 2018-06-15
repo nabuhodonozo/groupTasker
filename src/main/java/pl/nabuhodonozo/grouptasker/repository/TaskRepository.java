@@ -8,5 +8,5 @@ import pl.nabuhodonozo.grouptasker.entity.Task;
 
 public interface TaskRepository extends JpaRepository<Task, Long>{
 	List<Task> findAllByUser_Login(String login);
-//	List<Task> findAllByUser_LoginAndUser_Group_Name(String login, String name); doesnt work
+	List<Task> findAllByGroup_Name(String name);
 }

@@ -25,8 +25,6 @@ public class Group {
 	@NotBlank
 	@Column(unique=true)
 	private String name; //TODO: make names unique or give them number...
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Task> tasks = new ArrayList<>();
 //	@OneToOne    			not needed now
 //	private User admin;
 	//public or private group ??? // future note
@@ -51,27 +49,6 @@ public class Group {
 		this.name = name;
 	}
 
-	public void addTask(Task task) {
-		this.tasks.add(task);
-	}
-
-	public List<Task> getTasks() {
-		return tasks;
-	}
-
-	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
-	}
-	
-	public void delTask(Long id) {
-		Predicate<Task> predicate = p-> p.getId() == id;
-		this.tasks.removeIf(predicate);
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Group [id=%s, name=%s, tasks=%s]", id, name, tasks);
-	}
 
 //	public User getAdmin() {
 //		return admin;

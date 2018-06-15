@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pl.nabuhodonozo.grouptasker.entity.Group;
 import pl.nabuhodonozo.grouptasker.entity.Task;
 
+import java.util.List;
+
 public interface GroupRepository extends JpaRepository<Group, Long>{
 	Group findByName(String name);
-	Group findByTasks_Id(Long id);
+//	Group findByTasks_Id(Long id);
 }

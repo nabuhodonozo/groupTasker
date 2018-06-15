@@ -9,3 +9,5 @@
     * I think using ajax in this case would be more useful than more controllers and mapping methods
 3. Dont put everything in the same controller (it was supposed to be temporary, but now it became one big mess)
 4. JPA querries issues need tweaking, rn using java workaround aka. dirty fix
+5. Cant pass to jsp comments to specific task, cuz i'd need new queery for each task.... unless I use js then its need fix
+    * Took me 2 days to realise I can make bidirectional relationship. Working good even without js. (Maby not good performance wise, but for now I skip DB design part)

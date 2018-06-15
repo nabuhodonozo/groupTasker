@@ -18,7 +18,16 @@ public class Comment {
     private User user;
     @CreationTimestamp
     private Date date;
+    @ManyToOne
+    private Task task;
 
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
     public long getId() {
         return id;

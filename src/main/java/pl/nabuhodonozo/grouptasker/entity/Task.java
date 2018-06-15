@@ -17,13 +17,21 @@ public class Task {
     @ManyToOne
     private User user; //just one user per task for now
     private boolean state = false; //done or not yet
-    @OneToMany
+    @OneToMany(mappedBy = "task", cascade = {CascadeType.REMOVE })
     private List<Comment> comment = new ArrayList<>();
-
-
     @CreationTimestamp
     private Date date;
 
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    @ManyToOne
+    private Group group;
     /*TODO
      * creation date
      * expiration date
