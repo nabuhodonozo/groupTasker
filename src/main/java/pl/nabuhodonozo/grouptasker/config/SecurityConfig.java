@@ -30,9 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().antMatchers("**/app/**").authenticated().anyRequest().permitAll().and().formLogin().permitAll();
 
-//        http
-//                .csrf().disable()
-//                .authorizeRequests().antMatchers("**/auth/**").permitAll().anyRequest().authenticated().and().formLogin().permitAll();
     }
 
     private PasswordEncoder getPasswordEncoder() {

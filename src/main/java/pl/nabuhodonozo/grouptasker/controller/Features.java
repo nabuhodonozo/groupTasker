@@ -36,7 +36,7 @@ public class Features {
 		Long id = Long.parseLong(session.getAttribute("user_id").toString());
 		User user = userRepository.findById(id).orElse(null);
 		model.addAttribute("groups", user.getGroup());
-		return "/config/group/userGroups";
+		return "/group/userGroups";
 		//TODO: if doesnt exist ask if make one?
 	}
 	
@@ -79,7 +79,7 @@ public class Features {
 		
 		model.addAttribute("usersInGroup", userRepository.findByGroup_Name(groupName));
 		model.addAttribute("userList", usersToInvite); //FIXME: only users not present already in group
-		return "/config/group/group";
+		return "/group/group";
 		//TODO: if doesnt exist ask if make one?
 	}
 	
@@ -98,7 +98,7 @@ public class Features {
 		commentRepository.save(comment);
 		
 		
-		return "redirect:/config/group/manage/"+groupName;
+		return "redirect:/group/manage/"+groupName;
 	}
 	
 	@Autowired
@@ -113,13 +113,13 @@ public class Features {
 		Group group = groupRepository.findByName(groupName);
 		task.setGroup(group);
 		taskRepository.save(task);
-		return "redirect:/config/group/manage/"+groupName;
+		return "redirect:/group/manage/"+groupName;
 	}
 	
 	@GetMapping("/add")
 	public String add(Model model) {
 		model.addAttribute(new Group());
-		return "/config/group/add";
+		return "/group/add";
 	}
 	
 	@Autowired
@@ -127,7 +127,7 @@ public class Features {
 	@PostMapping("/add")
 	public String add(@Valid Group group, BindingResult result) {
 		if(result.hasErrors()) {
-			return "/config/group/add";
+			return "/group/add";
 		}
 		if(groupRepository.findByName(group.getName())==null){
 			User user = findUserFromSession();
@@ -137,7 +137,7 @@ public class Features {
 			return "/auth/index"; 
 		}else {
 			result.rejectValue("name", "error.GroupAlreadyExist", "Group already exist");
-			return "/config/group/add";
+			return "/group/add";
 		}
 	}
 	
@@ -147,14 +147,14 @@ public class Features {
 		User foundUser = userRepository.findByLogin(user_name).orElse(null);
 		foundUser.addGroup(groupRepository.findByName(groupName));
 		userRepository.save(foundUser);
-		return "redirect:/config/group/manage/"+groupName;
+		return "redirect:/group/manage/"+groupName;
 	}
 	
 	
 	@PostMapping("manage/{groupName}/delTask")
 	public String delTask(@PathVariable String groupName, @RequestParam Long taskId ) {
 		taskRepository.deleteById(taskId);
-		return "redirect:/config/group/manage/"+groupName;
+		return "redirect:/group/manage/"+groupName;
 	}
 
 
@@ -163,14 +163,14 @@ public class Features {
 		Task task = taskRepository.findById(taskId).orElse(null);
 		task.changeState();
 		taskRepository.save(task);
-		return "redirect:/config/group/manage/"+groupName;
+		return "redirect:/group/manage/"+groupName;
 	}
 
 
 	@PostMapping("manage/{groupName}/userTasks")
 	public String userTasks(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
 		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndGroup_Name(user_name, groupName));
-		return "/config/group/userTasks";
+		return "/group/userTasks";
 	}
 	
 	@GetMapping("/logout")
@@ -183,7 +183,7 @@ public class Features {
 	public String mytasks(Model model ) {
 		User user = findUserFromSession();	
 		model.addAttribute("tasks",taskRepository.findAllByUser_Login(user.getLogin()));
-		return "/config/group/userTasks";
+		return "/group/userTasks";
 	}
 	
 	@Autowired
