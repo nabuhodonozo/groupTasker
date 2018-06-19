@@ -74,11 +74,19 @@ public class AuthenticationController {
 
 	@GetMapping("/addadmin")
 	public String addadmin() {
+//		User user = new User();
+//		user.setLogin("tomek");
+//		user.setPassword("qwertyui");
+//		user.hashPassword();
+//		user.setEmail("q@q.q");
+//		userRepository.save(user);
+//		return "/auth/register";
+
 		User user = new User();
-		user.setLogin("tomek");
+		user.setLogin("bob");
 		user.setPassword("qwertyui");
 		user.hashPassword();
-		user.setEmail("q@q.q");
+		user.setEmail("w@w.w");
 		userRepository.save(user);
 		return "/auth/register";
 	}

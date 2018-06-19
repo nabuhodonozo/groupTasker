@@ -1,5 +1,6 @@
 package pl.nabuhodonozo.grouptasker.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,10 +33,15 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 @RequestMapping("/app/group")
 public class Features {
 	@GetMapping("/")
-	public String group(Model model, HttpSession session) {
-		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-		User user = userRepository.findById(id).orElse(null);
-		model.addAttribute("groups", user.getGroup());
+	public String group(Principal principal) {
+//		Long id = Long.parseLong(session.getAttribute("user_id").toString());
+//		User user = userRepository.findById(id).orElse(null);
+//		model.addAttribute("groups", user.getGroup());
+
+		System.out.println("---------------------------------------------------------------");
+		System.out.println("Print name: " + principal.getName());
+		System.out.println("---------------------------------------------------------------");
+
 		return "/group/userGroups";
 		//TODO: if doesnt exist ask if make one?
 	}

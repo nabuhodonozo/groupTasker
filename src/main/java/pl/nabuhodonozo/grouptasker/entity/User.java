@@ -1,16 +1,11 @@
 package pl.nabuhodonozo.grouptasker.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -35,8 +30,22 @@ public class User {
 	@Column(unique = true)
 	private String email;
 	@ManyToMany(cascade = CascadeType.MERGE) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
-	private List<Group> group = new ArrayList<>();
+	private List<Group> group = new ArrayList<>(); //change it to set
 
+	//
+	private boolean enabled = false;
+	@ManyToMany
+	@JoinTable(
+			name = "users_roles",
+			joinColumns = @JoinColumn(
+					name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(
+					name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles;
+
+	public boolean isEnabled(){
+		return enabled;
+	}
 	public User() {
 	}
 

@@ -1,6 +1,7 @@
 package pl.nabuhodonozo.grouptasker.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,9 +9,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
-import pl.nabuhodonozo.grouptasker.service.CustomUserDetailsService;
+
+import javax.sql.DataSource;
+
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
@@ -19,12 +23,16 @@ import pl.nabuhodonozo.grouptasker.service.CustomUserDetailsService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    DataSource dataSource;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(getPasswordEncoder());
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("select login, password, enabled from users where login=?")
+//                .authoritiesByUsernameQuery("select login, role from users_roles where login=?");
+                .authoritiesByUsernameQuery("select users.login, role.name from users_roles inner join users on users_roles.user_id=users.id inner join role on users_roles.role_id = role.id where users.login=?");
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,17 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    private PasswordEncoder getPasswordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-                return charSequence.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                return true;
-            }
-        };
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
     }
 }
