@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Entity
 @Table(name = "users")
@@ -28,7 +28,7 @@ public class User {
 	@Length(min=3, max=12)
 	private String login;
 	@NotBlank
-	@Length(min=8, max=20)
+//	@Length(min=8, max=20) //FIXME make userDTO hashpassword issue
 	private String password;
 	@Email
 	@NotBlank
@@ -36,6 +36,14 @@ public class User {
 	private String email;
 	@ManyToMany(cascade = CascadeType.MERGE) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
 	private List<Group> group = new ArrayList<>();
+
+	public User() {
+	}
+
+	public User(User user){
+
+	}
+
 
 	public void setPassword(String password) {
 		this.password = password;

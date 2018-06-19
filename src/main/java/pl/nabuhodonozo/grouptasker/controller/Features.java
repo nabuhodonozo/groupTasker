@@ -2,24 +2,21 @@ package pl.nabuhodonozo.grouptasker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.nabuhodonozo.grouptasker.entity.Comment;
 import pl.nabuhodonozo.grouptasker.entity.Group;
@@ -37,9 +34,9 @@ public class Features {
 	@GetMapping("/")
 	public String group(Model model, HttpSession session) {
 		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-		User user = userRepository.findOne(id);
+		User user = userRepository.findById(id).orElse(null);
 		model.addAttribute("groups", user.getGroup());
-		return "/app/group/userGroups";
+		return "/config/group/userGroups";
 		//TODO: if doesnt exist ask if make one?
 	}
 	
@@ -82,7 +79,7 @@ public class Features {
 		
 		model.addAttribute("usersInGroup", userRepository.findByGroup_Name(groupName));
 		model.addAttribute("userList", usersToInvite); //FIXME: only users not present already in group
-		return "/app/group/group";
+		return "/config/group/group";
 		//TODO: if doesnt exist ask if make one?
 	}
 	
@@ -96,12 +93,12 @@ public class Features {
 	public String group(@Valid Comment comment, @PathVariable String groupName, @PathVariable Long taskId) {
 		comment.setUser(findUserFromSession());
 		commentRepository.save(comment);
-		Task task = taskRepository.findOne(taskId);
+		Task task = taskRepository.findById(taskId).orElse(null);
 		comment.setTask(task);
 		commentRepository.save(comment);
 		
 		
-		return "redirect:/app/group/manage/"+groupName;
+		return "redirect:/config/group/manage/"+groupName;
 	}
 	
 	@Autowired
@@ -111,18 +108,18 @@ public class Features {
 	@Transactional
 	public String addTask(@PathVariable String groupName, @Valid Task task, HttpSession session) {
 		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-		User user = userRepository.findOne(id);
+		User user = userRepository.findById(id).orElse(null);
 		task.setUser(user); //FIXME user from session
 		Group group = groupRepository.findByName(groupName);
 		task.setGroup(group);
 		taskRepository.save(task);
-		return "redirect:/app/group/manage/"+groupName;
+		return "redirect:/config/group/manage/"+groupName;
 	}
 	
 	@GetMapping("/add")
 	public String add(Model model) {
 		model.addAttribute(new Group());
-		return "/app/group/add";
+		return "/config/group/add";
 	}
 	
 	@Autowired
@@ -130,7 +127,7 @@ public class Features {
 	@PostMapping("/add")
 	public String add(@Valid Group group, BindingResult result) {
 		if(result.hasErrors()) {
-			return "/app/group/add";
+			return "/config/group/add";
 		}
 		if(groupRepository.findByName(group.getName())==null){
 			User user = findUserFromSession();
@@ -140,40 +137,40 @@ public class Features {
 			return "/auth/index"; 
 		}else {
 			result.rejectValue("name", "error.GroupAlreadyExist", "Group already exist");
-			return "/app/group/add";
+			return "/config/group/add";
 		}
 	}
 	
 	
 	@PostMapping("manage/{groupName}/addUser")
 	public String addUser(@PathVariable String groupName, @RequestParam String user_name ) {
-		User foundUser = userRepository.findByLogin(user_name);
+		User foundUser = userRepository.findByLogin(user_name).orElse(null);
 		foundUser.addGroup(groupRepository.findByName(groupName));
 		userRepository.save(foundUser);
-		return "redirect:/app/group/manage/"+groupName;
+		return "redirect:/config/group/manage/"+groupName;
 	}
 	
 	
 	@PostMapping("manage/{groupName}/delTask")
 	public String delTask(@PathVariable String groupName, @RequestParam Long taskId ) {
-		taskRepository.delete(taskId);
-		return "redirect:/app/group/manage/"+groupName;
+		taskRepository.deleteById(taskId);
+		return "redirect:/config/group/manage/"+groupName;
 	}
 
 
 	@PostMapping("manage/{groupName}/switchState")
 	public String changeTaskState(@PathVariable String groupName, @RequestParam Long taskId ) {
-		Task task = taskRepository.findOne(taskId);
+		Task task = taskRepository.findById(taskId).orElse(null);
 		task.changeState();
 		taskRepository.save(task);
-		return "redirect:/app/group/manage/"+groupName;
+		return "redirect:/config/group/manage/"+groupName;
 	}
 
 
 	@PostMapping("manage/{groupName}/userTasks")
 	public String userTasks(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
 		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndGroup_Name(user_name, groupName));
-		return "/app/group/userTasks";
+		return "/config/group/userTasks";
 	}
 	
 	@GetMapping("/logout")
@@ -186,14 +183,14 @@ public class Features {
 	public String mytasks(Model model ) {
 		User user = findUserFromSession();	
 		model.addAttribute("tasks",taskRepository.findAllByUser_Login(user.getLogin()));
-		return "/app/group/userTasks";
+		return "/config/group/userTasks";
 	}
 	
 	@Autowired
 	HttpSession session;
 	public User findUserFromSession() {
 		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-		User user = userRepository.findOne(id); 
+		User user = userRepository.findById(id).orElse(null);
 		return user;
 	}	
 }

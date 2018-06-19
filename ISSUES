@@ -11,3 +11,6 @@
 4. JPA querries issues need tweaking, rn using java workaround aka. dirty fix
 5. Cant pass to jsp comments to specific task, cuz i'd need new queery for each task.... unless I use js then its need fix
     * Took me 2 days to realise I can make bidirectional relationship. Working good even without js. (Maby not good performance wise, but for now I skip DB design part)
+6. Moving to spring boot took some time and effort to make it working. (I should have probably started with spring boot, but I gained experience so now I know how it looks with and without spring boot)
+7. //FIXME
+    make userDTO, cuz rn password has 20 chars, so either validation wont work or database wont accept hashed password

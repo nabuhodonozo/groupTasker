@@ -3,8 +3,8 @@ package pl.nabuhodonozo.grouptasker.controller;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,7 +34,7 @@ public class AuthenticationController {
 	
 	@PostMapping("/login")
 	public String procesLogin(@ModelAttribute UserLoginData userLoginData, HttpSession session, BindingResult result) {
-		User user = userRepository.findByLogin(userLoginData.getLogin());
+		User user = userRepository.findByLogin(userLoginData.getLogin()).orElse(null);
 		if (user == null) {
 			result.rejectValue("login", "error.UserDoesntExist", "User doesnt exist");
 			return "/auth/login";
@@ -69,5 +69,17 @@ public class AuthenticationController {
 		user.hashPassword();
 		userRepository.save(user);	
 		return "/auth/index";
+	}
+
+
+	@GetMapping("/addadmin")
+	public String addadmin() {
+		User user = new User();
+		user.setLogin("tomek");
+		user.setPassword("qwertyui");
+		user.hashPassword();
+		user.setEmail("q@q.q");
+		userRepository.save(user);
+		return "/auth/register";
 	}
 }
