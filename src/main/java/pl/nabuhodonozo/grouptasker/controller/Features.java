@@ -170,12 +170,7 @@ public class Features {
 		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndGroup_Name(user_name, groupName));
 		return "/group/userTasks";
 	}
-	
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate(); 
-		return "redirect:/";
-	}
+
 
 	@GetMapping("/mytasks")
 	public String mytasks(Model model, Principal principal ) {

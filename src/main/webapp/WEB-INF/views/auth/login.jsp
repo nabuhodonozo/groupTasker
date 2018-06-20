@@ -10,8 +10,18 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 <h1>Login</h1>
-<form name='f' action="login" method='POST'>
+<form action="login" method='POST'>
 	<table>
+		<c:if test="${param.error ne null}">
+		<div class="alert alert-error">
+		Invalid username and password.
+		</div>
+		</c:if>
+		<c:if test="${param.logout ne null}">
+		<div class="alert alert-success">
+			You have been logged out.
+		</div>
+		</c:if>
 		<tr>
 			<td>User:</td>
 			<td><input type='text' name='username' value=''></td>

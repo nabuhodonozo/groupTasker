@@ -8,11 +8,11 @@
 	</sec:authorize>
 
 	<c:out value="${principal.username}" />
-	<a href="<c:url value="/app/group/logout" />">Wyloguj</a>
+	<a href="<c:url value="/logout" />">Wyloguj</a>
 </div>
 <nav>
-	<a href="<c:url value="/auth/login" /> ">Login</a>
-	<a href="<c:url value="/auth/register" /> ">Register</a>
+	<a href="<c:url value="/login" /> ">Login</a>
+	<a href="<c:url value="/register" /> ">Register</a>
 	<a href="<c:url value="/app/group/"/>">My Groups</a> <!-- zrobic js i wysuwane listy xD -->
 	<a href="<c:url value="/app/group/add"/>">Add Group</a>
 	<a href="<c:url value="/app/group/mytasks"/>">My Tasks</a>

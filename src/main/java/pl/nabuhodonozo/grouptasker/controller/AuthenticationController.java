@@ -4,14 +4,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.nabuhodonozo.grouptasker.entity.User;
 import pl.nabuhodonozo.grouptasker.model.UserLoginData;
@@ -19,7 +16,6 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
 
 @Controller
-@RequestMapping("/auth")
 public class AuthenticationController {
 
 	@GetMapping("/login")
@@ -28,25 +24,15 @@ public class AuthenticationController {
 		return "/auth/login";
 	}
 
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "/auth/login?logout";
+	}
+
 	@Autowired
 	UserRepository userRepository;
 
-	
-	@PostMapping("/login")
-	public String procesLogin(@ModelAttribute UserLoginData userLoginData, HttpSession session, BindingResult result) {
-		User user = userRepository.findByLogin(userLoginData.getLogin()).orElse(null);
-		if (user == null) {
-			result.rejectValue("login", "error.UserDoesntExist", "User doesnt exist");
-			return "/auth/login";
-		} else if (BCrypt.checkpw(userLoginData.getPassword(), user.getPassword())) {
-			session.setAttribute("user_id", user.getId());
-			session.setAttribute("user_name", user.getLogin());
-			return "/auth/index";
-		} else {
-			result.rejectValue("password", "error.WrongPassword", "WrongPassword");
-			return "/auth/login";
-		}
-	}
 
 	@GetMapping("/register")
 	public String allowRegister(Model model) {
@@ -67,6 +53,7 @@ public class AuthenticationController {
 			return "/auth/register";
 		}
 		user.hashPassword();
+		//fixme need role to fully work with spring security
 		userRepository.save(user);	
 		return "/auth/index";
 	}
