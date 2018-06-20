@@ -31,28 +31,9 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 @RequestMapping("/app/group")
 public class Features {
 	@GetMapping("/")
-	public String group(Principal principal, HttpSession session) {
-//		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-//		User user = userRepository.findById(id).orElse(null);
-//		model.addAttribute("groups", user.getGroup());
-
-		System.out.println("---------------------------------------------------------------");
-		System.out.println("Print name: " + principal.getName());
-		System.out.println("---------------------------------------------------------------");
-        System.out.println(principal.toString());
-        System.out.println("---------------------------------------------------------------");
-        Enumeration e = (Enumeration) (session.getAttributeNames());
-
-        while ( e.hasMoreElements())
-        {
-            Object tring;
-            if((tring = e.nextElement())!=null)
-            {
-                System.out.println(session.getValue((String) tring));
-            }
-
-        }
-        System.out.println("---------------------------------------------------------------");
+	public String group(Principal principal, HttpSession session, Model model) {
+		User user = findUserFromSession(principal);
+		model.addAttribute("groups", user.getGroup());
         return "/group/userGroups";
 		//TODO: if doesnt exist ask if make one?
 	}
@@ -63,9 +44,9 @@ public class Features {
 	public String group(Model model, @PathVariable String groupName) {
 		
 		//dirty fix (workaround filter for authentication to group)
-		if(!findUserFromSession().getGroup().contains(groupRepository.findByName(groupName))) {
-			return "error/accessDenied";
-		}
+//		if(!findUserFromSession().getGroup().contains(groupRepository.findByName(groupName))) {
+//			return "error/accessDenied";
+//		}//FIXME replace this with spring security
 		
 		Group group = groupRepository.findByName(groupName);
 		
@@ -107,8 +88,8 @@ public class Features {
 	TaskRepository taskRepository;
 	
 	@PostMapping("manage/{groupName}/{taskId}")
-	public String group(@Valid Comment comment, @PathVariable String groupName, @PathVariable Long taskId) {
-		comment.setUser(findUserFromSession());
+	public String group(@Valid Comment comment, @PathVariable String groupName, @PathVariable Long taskId, Principal principal) {
+		comment.setUser(findUserFromSession(principal));
 		commentRepository.save(comment);
 		Task task = taskRepository.findById(taskId).orElse(null);
 		comment.setTask(task);
@@ -142,12 +123,12 @@ public class Features {
 	@Autowired
 	GroupRepository groupRepository;
 	@PostMapping("/add")
-	public String add(@Valid Group group, BindingResult result) {
+	public String add(@Valid Group group, BindingResult result, Principal principal) {
 		if(result.hasErrors()) {
 			return "/group/add";
 		}
 		if(groupRepository.findByName(group.getName())==null){
-			User user = findUserFromSession();
+			User user = findUserFromSession(principal);
 			user.addGroup(group);
 			groupRepository.save(group);
 			userRepository.save(user);
@@ -197,17 +178,13 @@ public class Features {
 	}
 
 	@GetMapping("/mytasks")
-	public String mytasks(Model model ) {
-		User user = findUserFromSession();	
+	public String mytasks(Model model, Principal principal ) {
+		User user = findUserFromSession(principal);
 		model.addAttribute("tasks",taskRepository.findAllByUser_Login(user.getLogin()));
 		return "/group/userTasks";
 	}
 	
-	@Autowired
-	HttpSession session;
-	public User findUserFromSession() {
-		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-		User user = userRepository.findById(id).orElse(null);
-		return user;
+	public User findUserFromSession(Principal principal) {
+		return userRepository.findByLogin(principal.getName()).orElse(null);
 	}	
 }

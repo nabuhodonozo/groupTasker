@@ -3,7 +3,10 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div>
-	<sec:authentication var="principal" property="principal" />
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication var="principal" property="principal" />
+	</sec:authorize>
+
 	<c:out value="${principal.username}" />
 	<a href="<c:url value="/app/group/logout" />">Wyloguj</a>
 </div>

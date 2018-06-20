@@ -29,15 +29,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select login, password, enabled from users where login=?")
-//                .authoritiesByUsernameQuery("select login, role from users_roles where login=?");
                 .authoritiesByUsernameQuery("select users.login, role.name from users_roles inner join users on users_roles.user_id=users.id inner join role on users_roles.role_id = role.id where users.login=?");
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("**/app/**").authenticated().anyRequest().permitAll().and().formLogin().permitAll();
-
+//        http.csrf().disable().authorizeRequests().antMatchers("/", "/auth/**").permitAll().anyRequest().authenticated().and().formLogin().permitAll();
+        http
+                .csrf()
+                    .disable()
+                    .authorizeRequests()
+                        .antMatchers("/", "/auth/**")
+                        .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                .and()
+                .formLogin()
+                    .loginPage("/auth/login")
+                    .permitAll()
+                .and()
+                    .logout()
+                .permitAll();
     }
 
     @Bean

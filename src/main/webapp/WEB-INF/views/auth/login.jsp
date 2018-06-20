@@ -6,21 +6,25 @@
 <head>
 <%@ include file="/WEB-INF/views/jspf/header.jspf" %>
 <title>Insert title here</title>
-<style>
-	span{
-		color: red;
-	}
-</style>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
-	<form:form method="post" modelAttribute="userLoginData">
-		<div><label><form:input path="login"/>    login       </label></div>
-		<div><form:errors path="login"/></div>
-		<div><label><form:input type="password" path="password"/>   password </label></div>
-		<div><form:errors path="password"/></div>
-		<div><label><input type="submit" value="Login"/>                      </label></div>
-	</form:form>
+<h1>Login</h1>
+<form name='f' action="login" method='POST'>
+	<table>
+		<tr>
+			<td>User:</td>
+			<td><input type='text' name='username' value=''></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input type='password' name='password' /></td>
+		</tr>
+		<tr>
+			<td><input name="submit" type="submit" value="submit" /></td>
+		</tr>
+	</table>
+</form>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
 </html>
