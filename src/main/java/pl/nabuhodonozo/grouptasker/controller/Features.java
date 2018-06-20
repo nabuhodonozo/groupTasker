@@ -1,9 +1,7 @@
 package pl.nabuhodonozo.grouptasker.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -33,7 +31,7 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 @RequestMapping("/app/group")
 public class Features {
 	@GetMapping("/")
-	public String group(Principal principal) {
+	public String group(Principal principal, HttpSession session) {
 //		Long id = Long.parseLong(session.getAttribute("user_id").toString());
 //		User user = userRepository.findById(id).orElse(null);
 //		model.addAttribute("groups", user.getGroup());
@@ -41,8 +39,21 @@ public class Features {
 		System.out.println("---------------------------------------------------------------");
 		System.out.println("Print name: " + principal.getName());
 		System.out.println("---------------------------------------------------------------");
+        System.out.println(principal.toString());
+        System.out.println("---------------------------------------------------------------");
+        Enumeration e = (Enumeration) (session.getAttributeNames());
 
-		return "/group/userGroups";
+        while ( e.hasMoreElements())
+        {
+            Object tring;
+            if((tring = e.nextElement())!=null)
+            {
+                System.out.println(session.getValue((String) tring));
+            }
+
+        }
+        System.out.println("---------------------------------------------------------------");
+        return "/group/userGroups";
 		//TODO: if doesnt exist ask if make one?
 	}
 	
