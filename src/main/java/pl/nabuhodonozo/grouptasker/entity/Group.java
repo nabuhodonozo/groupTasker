@@ -25,7 +25,7 @@ public class Group {
 	@NotBlank
 	@Column(unique=true)
 	private String name; //TODO: make names unique or give them number...
-//	@OneToOne    			not needed now
+//	@ManyToOne    			not needed now
 //	private User admin;
 	//public or private group ??? // future note
 	//group admins // future note

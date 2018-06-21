@@ -21,7 +21,6 @@ public class UserController {
 	@ResponseBody
 	public String delete(HttpSession session) {
 		Long id = Long.parseLong( session.getAttribute("user_id").toString());
-//		User entity = userRepository.findOne(id);
 		User entity = userRepository.findById(id).orElse(null);
 
 		userRepository.delete(entity);

@@ -20,10 +20,10 @@ public class User {
 	private long id;
 	@NotBlank
 	@Column(unique = true)
-	@Length(min=3, max=12)
+	@Length(min=3, max=20)
 	private String login;
 	@NotBlank
-//	@Length(min=8, max=20) //FIXME make userDTO hashpassword issue
+	@Length(min=8, max=60) //FIXME
 	private String password;
 	@Email
 	@NotBlank
@@ -31,7 +31,6 @@ public class User {
 	private String email;
 	@ManyToMany(cascade = CascadeType.MERGE) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
 	private List<Group> group = new ArrayList<>(); //change it to set
-	//Spring security required (without making customUserDetailsService)
 	private boolean enabled = true;
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Role> roles = new ArrayList<>();

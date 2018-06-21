@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 <div style="float: right; clear: left; padding-left: 10px; padding-right: 10px;">
 	Users To invite:
-	<c:url value="/app/group/manage/" var="myUrl"/>
+	<c:url value="/group/" var="myUrl"/>
 	<c:forEach items="${userList}" var="user">
 			<form action="${myUrl}${group.name}/addUser" method="post">
 				<input type = "hidden" name = "user_name" value = "${user.login}" />

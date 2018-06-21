@@ -28,8 +28,8 @@ import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
 
 @Controller
-@RequestMapping("/app/group")
-public class Features {
+@RequestMapping("/group")
+public class GroupController {
 	@GetMapping("/")
 	public String group(Principal principal, HttpSession session, Model model) {
 		User user = findUserFromSession(principal);
@@ -38,20 +38,18 @@ public class Features {
 		//TODO: if doesnt exist ask if make one?
 	}
 	
-	//needs filter and aka Admin management system to allow user to join group and admin permission
-	@GetMapping("manage/{groupName}") //have to be changed later
-	@Transactional// this single line didnt make it work 
-	public String group(Model model, @PathVariable String groupName) {
-		
-		//dirty fix (workaround filter for authentication to group)
-//		if(!findUserFromSession().getGroup().contains(groupRepository.findByName(groupName))) {
-//			return "error/accessDenied";
-//		}//FIXME replace this with spring security
-		
+
+	@GetMapping("{groupName}")
+	public String group(Model model, @PathVariable String groupName, Principal principal) {
+
+		//fixme Spring security expressions, ACL, LDAP? Dunno find better way
+		if(!findUserFromSession(principal).getGroup().contains(groupRepository.findByName(groupName))) {
+			return "error/accessDenied";
+		}//FIXME replace this with spring security
+
 		Group group = groupRepository.findByName(groupName);
-		
-		
-		
+
+
 		model.addAttribute(group);
 		model.addAttribute(new Task());
 		model.addAttribute(new Comment());
@@ -87,7 +85,7 @@ public class Features {
 	@Autowired
 	TaskRepository taskRepository;
 	
-	@PostMapping("manage/{groupName}/{taskId}")
+	@PostMapping("{groupName}/{taskId}")
 	public String group(@Valid Comment comment, @PathVariable String groupName, @PathVariable Long taskId, Principal principal) {
 		comment.setUser(findUserFromSession(principal));
 		commentRepository.save(comment);
@@ -96,22 +94,21 @@ public class Features {
 		commentRepository.save(comment);
 		
 		
-		return "redirect:/group/manage/"+groupName;
+		return "redirect:/group/"+groupName;
 	}
 	
 	@Autowired
 	UserRepository userRepository; //temp to delete later
 	
-	@PostMapping("manage/{groupName}") //have to be changed later
+	@PostMapping("{groupName}") //have to be changed later
 	@Transactional
-	public String addTask(@PathVariable String groupName, @Valid Task task, HttpSession session) {
-		Long id = Long.parseLong(session.getAttribute("user_id").toString());
-		User user = userRepository.findById(id).orElse(null);
+	public String addTask(@PathVariable String groupName, @Valid Task task, Principal principal) {
+		User user =  findUserFromSession(principal);
 		task.setUser(user); //FIXME user from session
 		Group group = groupRepository.findByName(groupName);
 		task.setGroup(group);
 		taskRepository.save(task);
-		return "redirect:/group/manage/"+groupName;
+		return "redirect:/group/"+groupName;
 	}
 	
 	@GetMapping("/add")
@@ -132,7 +129,7 @@ public class Features {
 			user.addGroup(group);
 			groupRepository.save(group);
 			userRepository.save(user);
-			return "/auth/index"; 
+			return "/auth/index";
 		}else {
 			result.rejectValue("name", "error.GroupAlreadyExist", "Group already exist");
 			return "/group/add";
@@ -140,32 +137,32 @@ public class Features {
 	}
 	
 	
-	@PostMapping("manage/{groupName}/addUser")
+	@PostMapping("{groupName}/addUser")
 	public String addUser(@PathVariable String groupName, @RequestParam String user_name ) {
 		User foundUser = userRepository.findByLogin(user_name).orElse(null);
 		foundUser.addGroup(groupRepository.findByName(groupName));
 		userRepository.save(foundUser);
-		return "redirect:/group/manage/"+groupName;
+		return "redirect:/group/"+groupName;
 	}
 	
 	
-	@PostMapping("manage/{groupName}/delTask")
+	@PostMapping("{groupName}/delTask")
 	public String delTask(@PathVariable String groupName, @RequestParam Long taskId ) {
 		taskRepository.deleteById(taskId);
-		return "redirect:/group/manage/"+groupName;
+		return "redirect:/group/"+groupName;
 	}
 
 
-	@PostMapping("manage/{groupName}/switchState")
+	@PostMapping("{groupName}/switchState")
 	public String changeTaskState(@PathVariable String groupName, @RequestParam Long taskId ) {
 		Task task = taskRepository.findById(taskId).orElse(null);
 		task.changeState();
 		taskRepository.save(task);
-		return "redirect:/group/manage/"+groupName;
+		return "redirect:/group/"+groupName;
 	}
 
 
-	@PostMapping("manage/{groupName}/userTasks")
+	@PostMapping("{groupName}/userTasks")
 	public String userTasks(@PathVariable String groupName, @RequestParam String user_name, Model model ) {
 		model.addAttribute("tasks",taskRepository.findAllByUser_LoginAndGroup_Name(user_name, groupName));
 		return "/group/userTasks";

@@ -11,7 +11,7 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	<c:forEach items="${groups}" var="group">
-		<a href="<c:url value="/app/group/manage/${group.name}"/>">${group.name}</a><br>
+		<a href="<c:url value="/group/${group.name}"/>">${group.name}</a><br>
 	</c:forEach>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>

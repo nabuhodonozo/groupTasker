@@ -16,10 +16,6 @@ import pl.nabuhodonozo.grouptasker.model.UserLoginData;
 import pl.nabuhodonozo.grouptasker.repository.RoleRepository;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
-import java.util.Collection;
-import java.util.Optional;
-
-
 @Controller
 public class AuthenticationController {
 
@@ -58,15 +54,6 @@ public class AuthenticationController {
 			result.rejectValue("email", "error.emailAlreadyExist", "This email is already used");
 			return "/auth/register";
 		}
-//		User userFromDb = userRepository.findByLogin(user.getLogin());
-//
-//		if(userFromDb!=null){
-//			result.rejectValue("login", "error.userAlreadyExist", "This login is already used");
-//			return "/auth/register";
-//		}else if(userFromDb != null){
-//			result.rejectValue("email", "error.emailAlreadyExist", "This email is already used");
-//			return "/auth/register";
-//		}
 		user.hashPassword();
 
 		Role role = roleRepository.findByName("USER").orElse(null);
@@ -76,36 +63,9 @@ public class AuthenticationController {
 			role = new Role();
 			role.setName("USER");
 		}
-		//Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '1' for key 'PRIMARY'
-		//	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[na:1.8.0_171]
-		//	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[na:1.8.0_171]
-		//	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[na:1.8.0_171]
-		//	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[na:1.8.0_171]
-		user.addRole(role); //not working
-
-
-		//fixme need role to fully work with spring security
-		userRepository.save(user);	
-		return "/auth/index";
-	}
-
-
-	@GetMapping("/addadmin")
-	public String addadmin() {
-//		User user = new User();
-//		user.setLogin("tomek");
-//		user.setPassword("qwertyui");
-//		user.hashPassword();
-//		user.setEmail("q@q.q");
-//		userRepository.save(user);
-//		return "/auth/register";
-
-		User user = new User();
-		user.setLogin("bob");
-		user.setPassword("qwertyui");
-		user.hashPassword();
-		user.setEmail("w@w.w");
+		user.addRole(role);
 		userRepository.save(user);
-		return "/auth/register";
+
+		return "/auth/index";
 	}
 }

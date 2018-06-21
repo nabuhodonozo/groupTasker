@@ -14,3 +14,4 @@
 6. Moving to spring boot took some time and effort to make it working. (I should have probably started with spring boot, but I gained experience so now I know how it looks with and without spring boot)
 7. //FIXME
     make userDTO, cuz rn password has 20 chars, so either validation wont work or database wont accept hashed password
+8. //fixme since user as a principal is stored in session anyway so prolly I should make "User... impements UserDetailsService" and UserPrincipal extends User //but if I change smthing in process I'd have to update this user in session too (bad idea)
