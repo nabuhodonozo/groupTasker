@@ -8,5 +8,4 @@ import pl.nabuhodonozo.grouptasker.entity.Task;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
-    List<Comment> findAllByTask(Task task);
 }

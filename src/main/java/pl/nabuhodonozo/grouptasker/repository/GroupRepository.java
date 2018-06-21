@@ -7,5 +7,4 @@ import pl.nabuhodonozo.grouptasker.entity.Group;
 
 public interface GroupRepository extends JpaRepository<Group, Long>{
 	Group findByName(String name);
-//	Group findByTasks_Id(Long id);
 }

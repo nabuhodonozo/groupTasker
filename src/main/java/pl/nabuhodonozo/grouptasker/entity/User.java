@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Entity
@@ -31,21 +31,11 @@ public class User {
 	private String email;
 	@ManyToMany(cascade = CascadeType.MERGE) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
 	private List<Group> group = new ArrayList<>(); //change it to set
+	//Spring security required (without making customUserDetailsService)
+	private boolean enabled = true;
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Collection<Role> roles = new ArrayList<>();
 
-	//
-	private boolean enabled = false;
-	@ManyToMany
-	@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(
-					name = "user_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(
-					name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
-
-	public boolean isEnabled(){
-		return enabled;
-	}
 	public User() {
 	}
 
@@ -102,8 +92,27 @@ public class User {
 		this.group.add(group);
 	}
 
-	
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
+
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
+
 	@Override
 	public String toString() {
 		return String.format("User [id=%s, login=%s, password=%s, email=%s, group=%s]", id, login, password, email,
