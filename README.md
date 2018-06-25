@@ -1,5 +1,5 @@
 # Group Tasker
-Webapp that helps orgranizing group time management, setting tasks for members.
+Webapp that helps orgranizing group time management, setting tasks for members. I planning to make combination of [trello](), [jira]() and [google calendar]() in one app. In the future I'd like to port it to android app. 
 
 Functionalities:
 - Spring Security jdbc login authentication
@@ -23,3 +23,10 @@ Technologies used:
 * [MySQL]()
 * [Maven](https://maven.apache.org/)
 
+## Project is not finished yet
+I have plenty ideas and functionalities to add, just need some time (;
+
+To do:
+* User friendly interface (bootstrap probably)
+* Replace some controllers methods with JavaScript, jQuery and Ajax
+* Add reminders (Email, or just browser notification)
