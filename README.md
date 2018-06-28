@@ -19,6 +19,7 @@ Technologies used:
     * [Spring Boot](https://spring.io/projects/spring-boot)
     * [Spring Security](https://spring.io/projects/spring-security)
     * [Spring data jpa](https://spring.io/projects/spring-data-jpa)
+    * [Spring MVC]()
 * [Hibernate]()
 * [MySQL]()
 * [Maven](https://maven.apache.org/)
