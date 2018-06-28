@@ -31,3 +31,15 @@ To do:
 * User friendly interface (bootstrap probably)
 * Replace some controllers methods with JavaScript, jQuery and Ajax
 * Add reminders (Email, or just browser notification)
+
+----
+### Brief History of project
+1. Spring MVC, Hibernate, Spring JPA, MySQL, jsp, BCrypt
+2. Basic functionalities (user login, register, task add, group add)
+3. Migrating to spring boot
+4. Migration to spring security
+####Comming soon:
+1. spring-boot-starter-mail (registration token)
+2. spring-boot-devtools (not importnant)
+3. Migration from jsp and taglibs to thymeleaf
+4. Some nice ui tweaking (bootstrap)
