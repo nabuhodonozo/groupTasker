@@ -38,7 +38,8 @@ To do:
 2. Basic functionalities (user login, register, task add, group add)
 3. Migrating to spring boot
 4. Migration to spring security
-####Comming soon:
+
+#### Comming soon:
 1. spring-boot-starter-mail (registration token)
 2. spring-boot-devtools (not importnant)
 3. Migration from jsp and taglibs to thymeleaf
