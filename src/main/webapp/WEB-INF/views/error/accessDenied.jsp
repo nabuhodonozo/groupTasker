@@ -8,8 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/views//jspf/nav.jspf" %>
+<%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	<h1>You have no access to this page!</h1>
-<%@ include file="/WEB-INF/views//jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
 </html>

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import pl.nabuhodonozo.grouptasker.entity.Role;
 import pl.nabuhodonozo.grouptasker.entity.User;
-import pl.nabuhodonozo.grouptasker.model.UserLoginData;
+import pl.nabuhodonozo.grouptasker.model.UserDto;
 import pl.nabuhodonozo.grouptasker.repository.RoleRepository;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
@@ -21,7 +21,7 @@ public class AuthenticationController {
 
 	@GetMapping("/login")
 	public String allowLogin(Model model) {
-		model.addAttribute(new UserLoginData());
+		model.addAttribute(new UserDto());
 		return "/auth/login";
 	}
 

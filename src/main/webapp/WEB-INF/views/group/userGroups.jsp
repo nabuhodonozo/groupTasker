@@ -13,6 +13,11 @@
 	<c:forEach items="${groups}" var="group">
 		<a href="<c:url value="/group/${group.name}"/>">${group.name}</a><br>
 	</c:forEach>
+	<form:form method="post" modelAttribute="group">
+		<div></div><form:input path="name"/>			 </div>
+		<div><form:errors path="name" />				 </div>
+		<div><input type="submit" value="Add group"/>    </div>
+	</form:form>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>
 </html>	

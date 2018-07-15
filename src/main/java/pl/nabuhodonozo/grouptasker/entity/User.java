@@ -18,20 +18,26 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+
 	@NotBlank
 	@Column(unique = true)
 	@Length(min=3, max=20)
 	private String login;
+
 	@NotBlank
-	@Length(min=8, max=60) //FIXME
+	@Length(max=60) //FIXME
 	private String password;
+
 	@Email
 	@NotBlank
 	@Column(unique = true)
 	private String email;
-	@ManyToMany(cascade = CascadeType.MERGE) // Casdade type this one needs change cuz I ll never create user with task already just for testing purpose
-	private List<Group> group = new ArrayList<>(); //change it to set
+
+	@ManyToMany(cascade = CascadeType.MERGE)
+	private List<Group> group = new ArrayList<>();
+
 	private boolean enabled = true;
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Role> roles = new ArrayList<>();
 
@@ -90,7 +96,6 @@ public class User {
 	public void addGroup(Group group) {
 		this.group.add(group);
 	}
-
 
 	public boolean isEnabled() {
 		return enabled;

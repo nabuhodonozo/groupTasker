@@ -1,6 +1,7 @@
 package pl.nabuhodonozo.grouptasker.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 
 @Entity
@@ -9,7 +10,10 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank
     private String name;
+
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 
@@ -35,5 +39,9 @@ public class Role {
 
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
     }
 }

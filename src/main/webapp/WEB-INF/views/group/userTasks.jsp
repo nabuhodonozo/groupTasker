@@ -9,7 +9,6 @@
 <title>User tasks</title>
 </head>
 <body>
-	<c:url value="/app/group/manage/" var="myUrl"/>
 <%@ include file="/WEB-INF/views/jspf/nav.jspf" %>
 	<c:forEach items="${tasks}" var="task">
 		<div style="border: 1px solid black">
@@ -17,11 +16,12 @@
 				<!-- here group name -->
 			</p>
 			<p>
-				${task.state} ${task.user.login }
+				${task.completed} ${task.user.login }
 			</p>
 			<p>
 				${task.description}
 			</p>
+		</div>
 	</c:forEach>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>

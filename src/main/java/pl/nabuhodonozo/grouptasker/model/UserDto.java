@@ -1,7 +1,11 @@
 package pl.nabuhodonozo.grouptasker.model;
 
-public class UserLoginData {
+import org.hibernate.validator.constraints.Length;
+
+public class UserDto {
+    @Length(min = 3, max = 20)
 	private String login;
+    @Length(min=3,max=20)
 	private String password;
 	
 	

@@ -1,9 +1,9 @@
 package pl.nabuhodonozo.grouptasker.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -12,12 +12,16 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotBlank
     private String text;
+
     @ManyToOne
     private User user;
+
     @CreationTimestamp
     private Date date;
+
     @ManyToOne
     private Task task;
 

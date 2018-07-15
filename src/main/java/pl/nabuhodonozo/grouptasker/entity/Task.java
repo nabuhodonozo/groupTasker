@@ -14,13 +14,29 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String description;
+
     @ManyToOne
-    private User user; //just one user per task for now
-    private boolean state = false; //done or not yet
+    private User user;
+
+    private boolean completed = false;
+
     @OneToMany(mappedBy = "task", cascade = {CascadeType.REMOVE })
     private List<Comment> comment = new ArrayList<>();
+
     @CreationTimestamp
     private Date date;
+
+    @ManyToOne
+    private Group group;
+
+
+    public void toggleCompleted() {
+        this.completed = !this.completed;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
 
     public Group getGroup() {
         return group;
@@ -30,17 +46,6 @@ public class Task {
         this.group = group;
     }
 
-    @ManyToOne
-    private Group group;
-    /*TODO
-     * creation date
-     * expiration date
-     *
-     * Below smthing like fridge controll :D
-     * number of products bought (that also need more complex implementation)
-     * products used or make additional method for removing number of products
-     * products used per day
-     */
     public long getId() {
         return id;
     }
@@ -65,14 +70,6 @@ public class Task {
         this.user = user;
     }
 
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
     public List<Comment> getComment() {
         return comment;
     }
@@ -92,14 +89,4 @@ public class Task {
     public void setDate(Date date) {
         this.date = date;
     }
-
-
-    public void changeState() {
-        if(this.state){
-            this.state = false;
-        }else{
-            this.state = true;
-        }
-    }
-
 }

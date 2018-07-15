@@ -32,7 +32,7 @@
 	<c:forEach items="${groupTasks}" var="task">
 		 <div style="border: 1px solid black">
 			<p>
-				${task.state} ${task.user.login }
+				${task.completed} ${task.user.login }
 			<form action="${myUrl}${group.name}/delTask" method="post">
 				<input type = "hidden" name = "taskId" value = "${task.id}" />
 				<input type="submit" value="del"/>	

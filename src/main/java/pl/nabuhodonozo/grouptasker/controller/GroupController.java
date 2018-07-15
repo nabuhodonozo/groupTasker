@@ -34,18 +34,17 @@ public class GroupController {
 	public String group(Principal principal, HttpSession session, Model model) {
 		User user = findUserFromSession(principal);
 		model.addAttribute("groups", user.getGroup());
+		model.addAttribute("group", new Group());
         return "/group/userGroups";
-		//TODO: if doesnt exist ask if make one?
 	}
 	
 
 	@GetMapping("{groupName}")
 	public String group(Model model, @PathVariable String groupName, Principal principal) {
 
-		//fixme Spring security expressions, ACL, LDAP? Dunno find better way
 		if(!findUserFromSession(principal).getGroup().contains(groupRepository.findByName(groupName))) {
 			return "error/accessDenied";
-		}//FIXME replace this with spring security
+		}
 
 		Group group = groupRepository.findByName(groupName);
 
@@ -55,7 +54,7 @@ public class GroupController {
 		model.addAttribute(new Comment());
 		model.addAttribute("groupTasks", taskRepository.findAllByGroup_Name(groupName));
 
-		//Probably there is one querry for all of this code //FIXME
+		//FIXME: Probably there is one querry for all of this code
 		List<User> userList = userRepository.findAll();
 		List<User> usersToInvite = new ArrayList<>();
 		for (User user : userList) {
@@ -76,7 +75,6 @@ public class GroupController {
 		model.addAttribute("usersInGroup", userRepository.findByGroup_Name(groupName));
 		model.addAttribute("userList", usersToInvite); //FIXME: only users not present already in group
 		return "/group/group";
-		//TODO: if doesnt exist ask if make one?
 	}
 	
 	
@@ -110,19 +108,14 @@ public class GroupController {
 		taskRepository.save(task);
 		return "redirect:/group/"+groupName;
 	}
-	
-	@GetMapping("/add")
-	public String add(Model model) {
-		model.addAttribute(new Group());
-		return "/group/add";
-	}
+
 	
 	@Autowired
 	GroupRepository groupRepository;
-	@PostMapping("/add")
+	@PostMapping("/")
 	public String add(@Valid Group group, BindingResult result, Principal principal) {
 		if(result.hasErrors()) {
-			return "/group/add";
+			return "/group/userGroups";
 		}
 		if(groupRepository.findByName(group.getName())==null){
 			User user = findUserFromSession(principal);
@@ -132,7 +125,7 @@ public class GroupController {
 			return "/auth/index";
 		}else {
 			result.rejectValue("name", "error.GroupAlreadyExist", "Group already exist");
-			return "/group/add";
+			return "/group/userGroups";
 		}
 	}
 	
@@ -156,7 +149,7 @@ public class GroupController {
 	@PostMapping("{groupName}/switchState")
 	public String changeTaskState(@PathVariable String groupName, @RequestParam Long taskId ) {
 		Task task = taskRepository.findById(taskId).orElse(null);
-		task.changeState();
+		task.toggleCompleted();
 		taskRepository.save(task);
 		return "redirect:/group/"+groupName;
 	}

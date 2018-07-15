@@ -13,7 +13,6 @@
 <nav>
 	<a href="<c:url value="/login" /> ">Login</a>
 	<a href="<c:url value="/register" /> ">Register</a>
-	<a href="<c:url value="/group/"/>">My Groups</a> <!-- zrobic js i wysuwane listy xD -->
-	<a href="<c:url value="/group/add"/>">Add Group</a>
+	<a href="<c:url value="/group/"/>">My Groups</a>
 	<a href="<c:url value="/group/mytasks"/>">My Tasks</a>
 </nav>
