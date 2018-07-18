@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>User.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(106,135,89); }
+.s3 { color: rgb(104,151,187); }
+.s4 { color: rgb(128,128,128); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+User.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">pl.nabuhodonozo.grouptasker.entity</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Collection</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Set</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">javax.persistence.*</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javax.validation.constraints.Email</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javax.validation.constraints.NotBlank</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">org.hibernate.validator.constraints.Length</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">org.springframework.security.crypto.bcrypt.BCrypt</span><span class="s0">;</span><span class="s1"> 
+ 
+@Entity 
+@Table(name = </span><span class="s2">&quot;users&quot;</span><span class="s1">) 
+</span><span class="s0">public class </span><span class="s1">User { 
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    </span><span class="s0">private long </span><span class="s1">id</span><span class="s0">;</span><span class="s1"> 
+ 
+    @NotBlank 
+    @Column(unique = </span><span class="s0">true</span><span class="s1">) 
+    @Length(min=</span><span class="s3">3</span><span class="s0">, </span><span class="s1">max=</span><span class="s3">20</span><span class="s1">) 
+    </span><span class="s0">private </span><span class="s1">String login</span><span class="s0">;</span><span class="s1"> 
+ 
+    @NotBlank 
+    @Length(min=</span><span class="s3">8</span><span class="s0">, </span><span class="s1">max=</span><span class="s3">60</span><span class="s1">) </span><span class="s4">//FIXME</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String password</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Email 
+    @NotBlank 
+    @Column(unique = </span><span class="s0">true</span><span class="s1">) 
+    </span><span class="s0">private </span><span class="s1">String email</span><span class="s0">;</span><span class="s1"> 
+ 
+    @ManyToMany(cascade = CascadeType.MERGE) 
+    </span><span class="s0">private </span><span class="s1">List&lt;Group&gt; group = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private boolean </span><span class="s1">enabled = </span><span class="s0">true;</span><span class="s1"> 
+ 
+    @ManyToMany(cascade = CascadeType.ALL) 
+    </span><span class="s0">private </span><span class="s1">Collection&lt;Role&gt; roles = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">User() { 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">User(User user){ 
+ 
+    } 
+ 
+ 
+    </span><span class="s0">public void </span><span class="s1">setPassword(String password) { 
+        </span><span class="s0">this</span><span class="s1">.password = password</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">hashPassword() { 
+        </span><span class="s0">this</span><span class="s1">.password = BCrypt.hashpw(</span><span class="s0">this</span><span class="s1">.password</span><span class="s0">, </span><span class="s1">BCrypt.gensalt(</span><span class="s3">12</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+    } 
+     
+    </span><span class="s0">public long </span><span class="s1">getId() { 
+        </span><span class="s0">return </span><span class="s1">id</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setId(</span><span class="s0">long </span><span class="s1">id) { 
+        </span><span class="s0">this</span><span class="s1">.id = id</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String getPassword() { 
+        </span><span class="s0">return </span><span class="s1">password</span><span class="s0">;</span><span class="s1"> 
+    }  
+ 
+    </span><span class="s0">public </span><span class="s1">String getEmail() { 
+        </span><span class="s0">return </span><span class="s1">email</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setEmail(String email) { 
+        </span><span class="s0">this</span><span class="s1">.email = email</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String getLogin() { 
+        </span><span class="s0">return </span><span class="s1">login</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setLogin(String login) { 
+        </span><span class="s0">this</span><span class="s1">.login = login</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">List&lt;Group&gt; getGroup() { 
+        </span><span class="s0">return </span><span class="s1">group</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setGroup(List&lt;Group&gt; group) { 
+        </span><span class="s0">this</span><span class="s1">.group = group</span><span class="s0">;</span><span class="s1"> 
+    } 
+     
+    </span><span class="s0">public void </span><span class="s1">addGroup(Group group) { 
+        </span><span class="s0">this</span><span class="s1">.group.add(group)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public boolean </span><span class="s1">isEnabled() { 
+        </span><span class="s0">return </span><span class="s1">enabled</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setEnabled(</span><span class="s0">boolean </span><span class="s1">enabled) { 
+        </span><span class="s0">this</span><span class="s1">.enabled = enabled</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">Collection&lt;Role&gt; getRoles() { 
+        </span><span class="s0">return </span><span class="s1">roles</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setRoles(Collection&lt;Role&gt; roles) { 
+        </span><span class="s0">this</span><span class="s1">.roles = roles</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">addRole(Role role) { 
+        </span><span class="s0">this</span><span class="s1">.roles.add(role)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String toString() { 
+        </span><span class="s0">return </span><span class="s1">String.format(</span><span class="s2">&quot;User [id=%s, login=%s, password=%s, email=%s, group=%s]&quot;</span><span class="s0">, </span><span class="s1">id</span><span class="s0">, </span><span class="s1">login</span><span class="s0">, </span><span class="s1">password</span><span class="s0">, </span><span class="s1">email</span><span class="s0">,</span><span class="s1"> 
+                group)</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

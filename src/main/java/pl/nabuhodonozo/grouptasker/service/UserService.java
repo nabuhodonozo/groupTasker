@@ -12,7 +12,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-        public User findByEmail(String email) {
+    public User findByEmail(String email) {
             return userRepository.findByEmail(email).orElse(null);
         }
 

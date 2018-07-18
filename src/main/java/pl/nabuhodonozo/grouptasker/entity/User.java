@@ -25,21 +25,20 @@ public class User {
 	private String login;
 
 	@NotBlank
-	@Length(max=60) //FIXME
+	@Length(max=60) //FIXME 60 is required for hashed password, but I cant validate it now.
 	private String password;
 
 	@Email
-	@NotBlank
 	@Column(unique = true)
 	private String email;
-
-	@ManyToMany(cascade = CascadeType.MERGE)
-	private List<Group> group = new ArrayList<>();
 
 	private boolean enabled = true;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Role> roles = new ArrayList<>();
+
+	@ManyToMany(cascade = CascadeType.MERGE)
+	private List<Group> group = new ArrayList<>();
 
 	public User() {
 	}
