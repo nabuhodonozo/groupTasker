@@ -13,6 +13,6 @@
 <nav>
 	<a href="<c:url value="/login" /> ">Login</a>
 	<a href="<c:url value="/register" /> ">Register</a>
-	<a href="<c:url value="/group/"/>">My Groups</a>39
+	<a href="<c:url value="/group/"/>">My Groups</a>
 	<a href="<c:url value="/group/mytasks"/>">My Tasks</a>
 </nav>

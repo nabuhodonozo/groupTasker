@@ -25,7 +25,7 @@ public class User {
 	private String login;
 
 	@NotBlank
-	@Length(max=60) //FIXME 60 is required for hashed password, but I cant validate it now.
+	@Length(max=60)
 	private String password;
 
 	@Email
@@ -40,6 +40,9 @@ public class User {
 	@ManyToMany(cascade = CascadeType.MERGE)
 	private List<Group> group = new ArrayList<>();
 
+	@Column(name = "confirmation_token")
+	private String confirmationToken;
+
 	public User() {
 	}
 
@@ -47,13 +50,16 @@ public class User {
 
 	}
 
+	public String getConfirmationToken() {
+		return confirmationToken;
+	}
+
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
+	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public void hashPassword() {
-		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(12));
 	}
 	
 	public long getId() {

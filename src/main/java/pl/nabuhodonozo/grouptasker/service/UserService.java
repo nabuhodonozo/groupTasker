@@ -1,9 +1,11 @@
 package pl.nabuhodonozo.grouptasker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.nabuhodonozo.grouptasker.entity.User;
 import pl.nabuhodonozo.grouptasker.repository.UserRepository;
 
+@Service("userService")
 public class UserService {
     private UserRepository userRepository;
 
@@ -19,4 +21,9 @@ public class UserService {
     public void saveUser(User user) {
         userRepository.save(user);
     }
+
+    public User findByConfirmationToken(String confirmationToken) {
+        return userRepository.findByConfirmationToken(confirmationToken);
+    }
+
 }
